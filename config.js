@@ -13,8 +13,8 @@
 // ════════════════════════════════════════════════════════════════
 
 const SUPABASE_CONFIG = {
-  url: 'https://SEU-PROJETO.supabase.co',
-  anonKey: 'SUA-CHAVE-ANON-PUBLICA-AQUI'
+  url: 'https://opnfhjetfjbrbjctjwpc.supabase.co',
+  anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9wbmZoamV0ZmpicmJqY3Rqd3BjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE2MTcyMjYsImV4cCI6MjA5NzE5MzIyNn0.Sai55J3lBsDZ25x0gTz3dkjFp66pzBlwst3jnoli_jQ'
 };
 
 // Identidade do produto (não precisa alterar isso)
