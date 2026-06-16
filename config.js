@@ -12,8 +12,8 @@
 // dados de outro.
 // ════════════════════════════════════════════════════════════════
 
-const SUPABASE_URL = 'https://opnfhjetfjbrbjctjwpc.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9wbmZoamV0ZmpicmJqY3Rqd3BjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE2MTcyMjYsImV4cCI6MjA5NzE5MzIyNn0.Sai55J3lBsDZ25x0gTz3dkjFp66pzBlwst3jnoli_jQ';
+const SUPABASE_URL = 'COLOQUE_AQUI_A_URL_DO_SEU_PROJETO_SUPABASE';
+const SUPABASE_ANON_KEY = 'COLOQUE_AQUI_A_CHAVE_ANON_PUBLICA_DO_SUPABASE';
 
 // ────────────────────────────────────────────────────────────────
 // Identidade do produto e dados conhecidos para importação única
