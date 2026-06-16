@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Casal no Controle">
+<meta name="theme-color" content="#0E8F6E">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Casal no Controle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green:#0E8F6E; --green-d:#0A6B53; --green-l:#E3F5EF;
+  --blue:#0B3B5C; --blue-l:#EAF1F6;
+  --gold:#C9A24C; --gold-l:#FBF3E0;
+  --ink:#152332; --ink-2:#54616E; --ink-3:#8C97A1; --ink-4:#C7CDD3;
+  --bg:#F5F8F7; --card:#FFFFFF; --line:#E7ECEA;
+  --red:#D1453B; --red-l:#FBEAE8;
+  --r-sm:8px; --r-md:14px; --r-lg:20px;
+  --shadow:0 1px 2px rgba(15,35,30,.04), 0 8px 24px rgba(15,35,30,.06);
+  --safe-t:env(safe-area-inset-top,0px); --safe-b:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',-apple-system,sans-serif;font-size:15px;line-height:1.5;min-height:100vh;padding-top:var(--safe-t)}
+button{font-family:inherit;cursor:pointer}
+input,select{font-family:inherit}
+a{color:var(--green);text-decoration:none}
+
+/* ── LAYOUT ── */
+.app{display:none}
+.app.active{display:block}
+.shell{max-width:880px;margin:0 auto;padding:0 16px calc(84px + var(--safe-b))}
+.page{display:none}
+.page.active{display:block}
+
+/* ── TOP BAR ── */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 0 18px;gap:10px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand img{width:34px;height:34px;border-radius:9px}
+.brand-text{display:flex;flex-direction:column;line-height:1.15}
+.brand-name{font-weight:800;font-size:15px;color:var(--ink)}
+.brand-house{font-size:11px;color:var(--ink-3);font-weight:500}
+.btn-logout{font-size:12px;font-weight:600;color:var(--ink-3);background:var(--card);border:1px solid var(--line);border-radius:20px;padding:6px 14px;transition:all .15s}
+.btn-logout:hover{color:var(--red);border-color:var(--red-l);background:var(--red-l)}
+
+/* ── CARDS / PANELS ── */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:18px;box-shadow:var(--shadow);margin-bottom:14px}
+.card-title{font-size:13px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.card-title svg{flex-shrink:0;color:var(--green)}
+.card-title .tag{margin-left:auto;font-size:10px;font-weight:600;color:var(--ink-3);background:var(--bg);padding:3px 9px;border-radius:20px;text-transform:uppercase;letter-spacing:.04em}
+
+/* ── STAT GRID ── */
+.stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}
+@media(min-width:560px){.stat-grid{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:14px;box-shadow:var(--shadow)}
+.stat-lbl{font-size:11px;font-weight:600;color:var(--ink-3);text-transform:uppercase;letter-spacing:.03em;margin-bottom:6px}
+.stat-val{font-family:'JetBrains Mono',monospace;font-size:17px;font-weight:600;color:var(--ink)}
+.stat.green .stat-val{color:var(--green)}
+.stat.gold .stat-val{color:#9c7a2e}
+.stat.blue .stat-val{color:var(--blue)}
+.stat-sub{font-size:11px;margin-top:4px;font-weight:600}
+.stat-sub.up{color:var(--red)}.stat-sub.dn{color:var(--green)}
+
+/* ── BOTTOM NAV ── */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(255,255,255,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);display:flex;padding-bottom:var(--safe-b)}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:transparent;border:none;color:var(--ink-3);transition:color .15s;position:relative}
+.nav-btn svg{width:21px;height:21px}
+.nav-btn span{font-size:10px;font-weight:600;letter-spacing:.01em}
+.nav-btn.active{color:var(--green)}
+
+/* ── MONTH NAV ── */
+.month-nav{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:16px}
+.month-nav button{background:var(--card);border:1px solid var(--line);border-radius:10px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;color:var(--ink-2);transition:all .15s}
+.month-nav button:hover{border-color:var(--green);color:var(--green)}
+.month-label{font-size:15px;font-weight:700;color:var(--ink);min-width:130px;text-align:center;text-transform:capitalize}
+
+/* ── TABLES ── */
+.tbl{width:100%;border-collapse:collapse}
+.tbl th{font-size:10px;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:.04em;text-align:left;padding:0 0 9px;border-bottom:1px solid var(--line)}
+.tbl th.r{text-align:right}
+.tbl td{padding:8px 0;border-bottom:1px solid var(--line);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.td-name{width:40%}.td-who{width:22%;padding-right:6px!important}.td-val{width:28%;text-align:right}.td-del{width:10%;text-align:right}
+.td-sname{width:58%}.td-sval{width:32%;text-align:right}.td-sdel{width:10%;text-align:right}
+
+.inp{background:var(--bg);border:1px solid var(--line);border-radius:8px;color:var(--ink);font-family:'JetBrains Mono',monospace;font-size:13px;padding:6px 9px;width:100%;transition:border-color .15s}
+.inp:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px var(--green-l)}
+.inp-name{font-family:'Inter',sans-serif;font-size:14px}
+.inp-val{text-align:right}
+.sel{background:var(--bg);border:1px solid var(--line);border-radius:8px;color:var(--ink-2);font-size:12px;font-weight:600;padding:6px 5px;width:100%;cursor:pointer}
+.sel:focus{outline:none;border-color:var(--green)}
+
+.btn-add{font-size:12px;font-weight:600;color:var(--green-d);background:var(--green-l);border:1px dashed rgba(14,143,110,.3);border-radius:10px;padding:8px 14px;width:100%;margin-top:8px;transition:all .15s}
+.btn-add:hover{background:#d7eee5}
+.btn-rm{background:transparent;border:none;color:var(--ink-4);font-size:18px;line-height:1;padding:2px 4px;transition:color .15s}
+.btn-rm:hover{color:var(--red)}
+
+.divider{height:1px;background:var(--line);margin:12px 0}
+.srow{display:flex;justify-content:space-between;align-items:center;padding:5px 0;font-size:13px;color:var(--ink-2)}
+.srow.b{color:var(--ink);font-weight:700;font-size:14px}
+.srow .v{font-family:'JetBrains Mono',monospace;font-size:13px}
+.srow .v.green{color:var(--green)}
+.pay-inp{background:var(--bg);border:1px solid var(--line);border-radius:8px;color:var(--ink);font-family:'JetBrains Mono',monospace;font-size:13px;padding:6px 9px;text-align:right;width:130px}
+.pay-inp:focus{outline:none;border-color:var(--green)}
+
+.btn-save{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--green);color:#fff;border:none;border-radius:var(--r-md);padding:13px;font-size:14px;font-weight:700;margin:6px 0 14px;transition:background .15s;box-shadow:0 4px 14px rgba(14,143,110,.28)}
+.btn-save:hover{background:var(--green-d)}
+.btn-save:disabled{opacity:.5;cursor:default}
+
+.extras-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:520px){.extras-grid{grid-template-columns:1fr}}
+.ebadge{font-size:10px;font-weight:600;color:var(--ink-3);background:var(--bg);border-radius:20px;padding:3px 9px;display:inline-block;margin-bottom:10px}
+
+/* ── ACERTO BOX ── */
+.acerto-box{background:linear-gradient(135deg,var(--green-d),var(--green));border-radius:var(--r-lg);padding:24px 20px;text-align:center;color:#fff;margin-bottom:14px;box-shadow:0 8px 28px rgba(14,143,110,.3)}
+.acerto-lbl{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.85;margin-bottom:8px}
+.acerto-val{font-family:'JetBrains Mono',monospace;font-size:clamp(28px,7vw,40px);font-weight:700;margin-bottom:4px}
+.acerto-sub{font-size:13px;opacity:.9;margin-bottom:18px}
+.acerto-breakdown{background:rgba(255,255,255,.14);border-radius:var(--r-md);padding:13px 15px;text-align:left}
+.brow{display:flex;justify-content:space-between;padding:5px 0;font-size:13px;opacity:.92;border-bottom:1px solid rgba(255,255,255,.14)}
+.brow:last-child{border-bottom:none}
+.brow .bv{font-family:'JetBrains Mono',monospace}
+.btotal{display:flex;justify-content:space-between;padding-top:9px;margin-top:5px;border-top:1px solid rgba(255,255,255,.3);font-weight:700;font-family:'JetBrains Mono',monospace;font-size:15px}
+
+/* ── AUTH SCREEN ── */
+.auth-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:linear-gradient(160deg,#F5F8F7 0%,#EAF1EE 100%)}
+.auth-box{width:100%;max-width:380px}
+.auth-logo{display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:28px}
+.auth-logo img{width:64px;height:64px;border-radius:16px;box-shadow:0 8px 24px rgba(11,59,92,.18)}
+.auth-title{font-size:20px;font-weight:800;color:var(--ink)}
+.auth-sub{font-size:13px;color:var(--ink-3);text-align:center}
+.auth-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:24px 22px;box-shadow:var(--shadow)}
+.auth-tabs{display:flex;gap:4px;background:var(--bg);border-radius:10px;padding:4px;margin-bottom:20px}
+.auth-tab{flex:1;text-align:center;padding:8px;border-radius:8px;font-size:13px;font-weight:700;color:var(--ink-3);background:transparent;border:none;transition:all .15s}
+.auth-tab.active{background:#fff;color:var(--green-d);box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.field{margin-bottom:13px}
+.field label{display:block;font-size:12px;font-weight:600;color:var(--ink-2);margin-bottom:5px}
+.field input{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:11px 12px;font-size:14px;color:var(--ink);transition:border-color .15s}
+.field input:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px var(--green-l)}
+.btn-primary{width:100%;background:var(--green);color:#fff;border:none;border-radius:10px;padding:12px;font-size:14px;font-weight:700;margin-top:6px;transition:background .15s}
+.btn-primary:hover{background:var(--green-d)}
+.btn-primary:disabled{opacity:.6}
+.auth-msg{font-size:12.5px;padding:9px 12px;border-radius:8px;margin-bottom:12px;display:none}
+.auth-msg.show{display:block}
+.auth-msg.error{background:var(--red-l);color:var(--red)}
+.auth-msg.ok{background:var(--green-l);color:var(--green-d)}
+.auth-setup-note{font-size:11.5px;color:var(--ink-3);text-align:center;margin-top:16px;line-height:1.5}
+
+/* ── EMPTY STATE / IMPORT BANNER ── */
+.import-banner{background:var(--gold-l);border:1px solid rgba(201,162,76,.3);border-radius:var(--r-md);padding:14px 16px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.import-banner p{font-size:13px;color:#7a5e22;font-weight:500}
+.btn-import{font-size:12px;font-weight:700;color:#fff;background:var(--gold);border:none;border-radius:8px;padding:8px 14px;white-space:nowrap}
+
+/* ── CHARTS ── */
+.chart-wrap{position:relative}
+.chart-svg{width:100%;display:block;overflow:visible}
+.chart-legend{display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;margin-top:10px}
+.legend-item{display:flex;align-items:center;gap:5px;cursor:pointer;transition:opacity .15s}
+.legend-item.hidden{opacity:.3}
+.legend-dot{width:9px;height:9px;border-radius:50%}
+.legend-lbl{font-size:11px;font-weight:600;color:var(--ink-2)}
+.chart-tooltip{position:absolute;background:var(--ink);border-radius:8px;padding:6px 10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#fff;pointer-events:none;white-space:nowrap;z-index:10;display:none;box-shadow:0 4px 16px rgba(0,0,0,.2)}
+.chart-tooltip.show{display:block}
+
+.sub-tabs{display:flex;gap:6px;margin-bottom:14px}
+.sub-tab{flex:1;text-align:center;font-size:12.5px;font-weight:700;padding:9px;border-radius:10px;background:var(--card);border:1px solid var(--line);color:var(--ink-3);transition:all .15s}
+.sub-tab.active{background:var(--green);color:#fff;border-color:var(--green)}
+
+.atbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.atbl{width:100%;border-collapse:collapse;min-width:480px}
+.atbl th{font-size:10px;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:.03em;padding:9px 8px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+.atbl th:first-child{text-align:left}
+.atbl td{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-2);padding:7px 8px;text-align:right;border-bottom:1px solid var(--line)}
+.atbl td:first-child{font-family:'Inter',sans-serif;font-weight:600;color:var(--ink-2);text-align:left}
+.atbl tr:last-child td{border-bottom:none}
+.atbl .cur-yr{color:var(--green);font-weight:700}
+.var-up{color:var(--red);font-weight:600}.var-dn{color:var(--green);font-weight:600}.var-na{color:var(--ink-4)}
+
+/* year cards */
+.year-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:14px}
+@media(min-width:560px){.year-cards{grid-template-columns:repeat(5,1fr)}}
+.year-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:12px 10px;text-align:center;box-shadow:var(--shadow)}
+.year-card.cur{border-color:var(--green)}
+.yc-year{font-size:11px;font-weight:700;color:var(--ink-3);margin-bottom:5px}
+.yc-total{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--ink);margin-bottom:3px}
+.yc-var{font-size:11px;font-weight:700}
+
+/* ── LISTS (investimentos / metas) ── */
+.list-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}
+.list-item:last-child{border-bottom:none}
+.li-main{flex:1;min-width:0}
+.li-title{font-size:14px;font-weight:600;color:var(--ink)}
+.li-sub{font-size:12px;color:var(--ink-3);margin-top:1px}
+.li-val{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:600;color:var(--ink);white-space:nowrap}
+.li-pct{font-size:11px;color:var(--green);font-weight:600}
+
+.dist-bar{height:8px;background:var(--bg);border-radius:6px;overflow:hidden;margin-top:6px}
+.dist-fill{height:100%;background:var(--green);border-radius:6px}
+
+.progress-bar{height:8px;background:var(--bg);border-radius:6px;overflow:hidden;margin-top:8px}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--green));border-radius:6px;transition:width .3s}
+
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.form-grid.full{grid-template-columns:1fr}
+.form-grid label{font-size:11px;font-weight:600;color:var(--ink-3);display:block;margin-bottom:4px}
+.form-grid input,.form-grid select{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:13px;color:var(--ink)}
+.form-grid input:focus,.form-grid select:focus{outline:none;border-color:var(--green)}
+
+.empty-state{text-align:center;padding:30px 10px;color:var(--ink-3)}
+.empty-state svg{margin-bottom:10px;opacity:.5}
+.empty-state p{font-size:13px}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:calc(76px + var(--safe-b));left:50%;transform:translateX(-50%) translateY(60px);background:var(--ink);color:#fff;border-radius:10px;padding:10px 18px;font-size:12.5px;font-weight:600;transition:transform .25s ease;z-index:300;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.error{background:var(--red)}
+
+/* ── SETTINGS MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(10,20,18,.45);display:none;align-items:center;justify-content:center;z-index:400;padding:20px}
+.modal-overlay.show{display:flex}
+.modal-box{background:#fff;border-radius:var(--r-lg);padding:22px;max-width:400px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.modal-box h3{font-size:16px;font-weight:800;margin-bottom:16px}
+.modal-actions{display:flex;gap:8px;margin-top:16px}
+.btn-secondary{flex:1;background:var(--bg);color:var(--ink-2);border:1px solid var(--line);border-radius:10px;padding:10px;font-size:13px;font-weight:700}
+.btn-danger{flex:1;background:var(--red);color:#fff;border:none;border-radius:10px;padding:10px;font-size:13px;font-weight:700}
+
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--ink-4);border-radius:3px}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════
+     AUTH SCREEN
+══════════════════════════════════════════════════ -->
+<div id="auth-screen" class="auth-screen">
+  <div class="auth-box">
+    <div class="auth-logo">
+      <img src="icon-512.png" alt="Casal no Controle">
+      <div class="auth-title">Casal no Controle</div>
+      <div class="auth-sub">Construindo liberdade financeira juntos</div>
+    </div>
+    <div class="auth-card">
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tab-login" onclick="setAuthTab('login')">Entrar</button>
+        <button class="auth-tab" id="tab-signup" onclick="setAuthTab('signup')">Criar conta</button>
+      </div>
+
+      <div class="auth-msg" id="auth-msg"></div>
+
+      <!-- LOGIN -->
+      <form id="form-login" onsubmit="return doLogin(event)">
+        <div class="field"><label>E-mail</label><input type="email" id="login-email" required autocomplete="email"></div>
+        <div class="field"><label>Senha</label><input type="password" id="login-pass" required autocomplete="current-password"></div>
+        <button class="btn-primary" type="submit" id="btn-login">Entrar</button>
+      </form>
+
+      <!-- SIGNUP -->
+      <form id="form-signup" style="display:none" onsubmit="return doSignup(event)">
+        <div class="field"><label>Nome da casa / apartamento</label><input type="text" id="su-casa" placeholder="Ex: AP Mont Serrat" required></div>
+        <div class="field"><label>Nome de quem paga as contas principais</label><input type="text" id="su-titular" placeholder="Ex: Anderson" required></div>
+        <div class="field"><label>Nome do(a) parceiro(a)</label><input type="text" id="su-parceiro" placeholder="Ex: Luciana" required></div>
+        <div class="field"><label>E-mail (login compartilhado do casal)</label><input type="email" id="su-email" required autocomplete="email"></div>
+        <div class="field"><label>Senha</label><input type="password" id="su-pass" required minlength="6" autocomplete="new-password"></div>
+        <button class="btn-primary" type="submit" id="btn-signup">Criar conta</button>
+      </form>
+
+      <div class="auth-setup-note" id="setup-note">Conecte seu projeto Supabase em <code>config.js</code> antes de entrar.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     APP SHELL
+══════════════════════════════════════════════════ -->
+<div id="app" class="app">
+<div class="shell">
+
+  <div class="topbar">
+    <div class="brand">
+      <img src="icon-192.png" alt="">
+      <div class="brand-text">
+        <div class="brand-name">Casal no Controle</div>
+        <div class="brand-house" id="house-name">—</div>
+      </div>
+    </div>
+    <button class="btn-logout" onclick="openSettings()">Configurações</button>
+  </div>
+
+  <!-- ── PAGE: DASHBOARD ── -->
+  <div id="p-dashboard" class="page active">
+    <div class="stat-grid">
+      <div class="stat green"><div class="stat-lbl">Patrimônio total</div><div class="stat-val" id="dash-patrimonio">—</div></div>
+      <div class="stat"><div class="stat-lbl">Gasto do mês</div><div class="stat-val" id="dash-gasto-mes">—</div></div>
+      <div class="stat gold"><div class="stat-lbl">Acerto do mês</div><div class="stat-val" id="dash-acerto">—</div></div>
+      <div class="stat blue"><div class="stat-lbl">Gasto médio (12m)</div><div class="stat-val" id="dash-media">—</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg>
+        Evolução dos gastos — últimos 6 meses
+      </div>
+      <div class="chart-wrap"><svg id="dash-chart" class="chart-svg" viewBox="0 0 560 180"></svg></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        Metas em andamento
+        <span class="tag" style="cursor:pointer" onclick="navTo('metas')">ver todas</span>
+      </div>
+      <div id="dash-metas"><div class="empty-state"><p>Nenhuma meta cadastrada ainda.</p></div></div>
+    </div>
+  </div>
+
+  <!-- ── PAGE: LANÇAMENTOS ── -->
+  <div id="p-lancamentos" class="page">
+    <div id="import-banner-wrap"></div>
+
+    <div class="month-nav">
+      <button onclick="changeMonth(-1)" aria-label="Mês anterior">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <div class="month-label" id="month-label">—</div>
+      <button onclick="changeMonth(1)" aria-label="Próximo mês">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat"><div class="stat-lbl">Total AP</div><div class="stat-val" id="sc-tap">—</div></div>
+      <div class="stat"><div class="stat-lbl">Cota / pessoa</div><div class="stat-val" id="sc-cota">—</div></div>
+      <div class="stat gold"><div class="stat-lbl" id="sc-lp-lbl">Parceiro pagou</div><div class="stat-val" id="sc-lp">—</div></div>
+      <div class="stat green"><div class="stat-lbl">Acerto do mês</div><div class="stat-val" id="sc-ac">—</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Despesas do apartamento
+      </div>
+      <table class="tbl">
+        <thead><tr><th>Descrição</th><th>Quem pagou</th><th class="r">Valor (R$)</th><th></th></tr></thead>
+        <tbody id="exp-body"></tbody>
+      </table>
+      <button class="btn-add" onclick="addExpRow()">+ Adicionar despesa</button>
+      <div class="divider"></div>
+      <div class="srow"><span>Total das despesas</span><span class="v" id="d-tap">—</span></div>
+      <div class="srow"><span>Cota de cada um (÷ 2)</span><span class="v" id="d-cota">—</span></div>
+      <div class="divider"></div>
+      <div class="srow b"><span id="d-deve-lbl">Parceiro(a) deve das despesas</span><span class="v green" id="d-deve">—</span></div>
+    </div>
+
+    <div class="extras-grid">
+      <div class="card" style="margin-bottom:0">
+        <div class="card-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          Schultz Bank
+        </div>
+        <div class="ebadge">Valor inteiro entra no acerto</div>
+        <table class="tbl"><tbody id="sch-body"></tbody></table>
+        <button class="btn-add" onclick="addSchRow()">+ Adicionar</button>
+        <div class="divider"></div>
+        <div class="srow b"><span>Total</span><span class="v" id="d-sch">—</span></div>
+      </div>
+      <div class="card" style="margin-bottom:0">
+        <div class="card-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          Sicredi Black
+        </div>
+        <div class="ebadge">÷ 2 entra no acerto</div>
+        <table class="tbl"><tbody id="sic-body"></tbody></table>
+        <button class="btn-add" onclick="addSicRow()">+ Adicionar</button>
+        <div class="divider"></div>
+        <div class="srow"><span style="font-size:12px">Total bruto</span><span class="v" id="d-sic">—</span></div>
+        <div class="srow b"><span>Cota (÷ 2)</span><span class="v" id="d-sicc">—</span></div>
+      </div>
+    </div>
+
+    <div style="height:14px"></div>
+    <button class="btn-save" id="btn-save-month" onclick="saveMonth()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+      Salvar lançamentos do mês
+    </button>
+
+    <div class="acerto-box">
+      <div class="acerto-lbl">Acerto do mês</div>
+      <div class="acerto-val" id="a-val">—</div>
+      <div class="acerto-sub" id="a-sub">Parceiro(a) transfere para o(a) titular</div>
+      <div class="acerto-breakdown">
+        <div class="brow"><span>Despesas AP (cota − pago)</span><span class="bv" id="b-deve">—</span></div>
+        <div class="brow"><span>Schultz Bank (inteiro)</span><span class="bv" id="b-sch">—</span></div>
+        <div class="brow"><span>Sicredi Black (÷ 2)</span><span class="bv" id="b-sic">—</span></div>
+        <div class="btotal"><span>Total a transferir</span><span id="b-tot">—</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PAGE: CRÔNICAS ── -->
+  <div id="p-cronicas" class="page">
+    <div class="year-cards" id="year-cards"></div>
+
+    <div class="sub-tabs">
+      <button class="sub-tab active" id="st-mensal" onclick="setSubTab('mensal')">Visão Mensal</button>
+      <button class="sub-tab" id="st-anual" onclick="setSubTab('anual')">Visão Anual</button>
+    </div>
+
+    <div id="view-mensal">
+      <div class="card">
+        <div class="card-title">Evolução mensal por ano</div>
+        <div class="chart-wrap">
+          <svg id="monthly-chart" class="chart-svg" viewBox="0 0 580 230"></svg>
+          <div class="chart-tooltip" id="chart-tip"></div>
+        </div>
+        <div class="chart-legend" id="monthly-legend"></div>
+      </div>
+      <div class="card">
+        <div class="atbl-wrap"><table class="atbl" id="monthly-tbl"></table></div>
+      </div>
+    </div>
+
+    <div id="view-anual" style="display:none">
+      <div class="card">
+        <div class="card-title">Total anual de gastos</div>
+        <div class="chart-wrap">
+          <svg id="annual-chart" class="chart-svg" viewBox="0 0 580 230"></svg>
+          <div class="chart-tooltip" id="ann-tip"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="atbl-wrap"><table class="atbl" id="annual-tbl"></table></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PAGE: INVESTIMENTOS ── -->
+  <div id="p-investimentos" class="page">
+    <div class="stat-grid">
+      <div class="stat green"><div class="stat-lbl">Patrimônio total</div><div class="stat-val" id="inv-total">—</div></div>
+      <div class="stat"><div class="stat-lbl">Nº de ativos</div><div class="stat-val" id="inv-count">—</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Novo aporte / ativo</div>
+      <div class="form-grid">
+        <div><label>Instituição</label><input type="text" id="inv-instituicao" placeholder="Ex: XP, Sicredi..."></div>
+        <div><label>Ativo</label><input type="text" id="inv-ativo" placeholder="Ex: Tesouro Selic"></div>
+        <div><label>Categoria</label><input type="text" id="inv-categoria" placeholder="Ex: Renda Fixa"></div>
+        <div><label>Valor (R$)</label><input type="text" id="inv-valor" placeholder="0,00"></div>
+      </div>
+      <div class="form-grid full">
+        <div><label>Data de referência</label><input type="date" id="inv-data"></div>
+      </div>
+      <button class="btn-primary" onclick="addInvestimento()">+ Adicionar</button>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Distribuição por categoria</div>
+      <div id="inv-dist"><div class="empty-state"><p>Nenhum investimento cadastrado.</p></div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Todos os ativos</div>
+      <div id="inv-list"><div class="empty-state"><p>Nenhum investimento cadastrado ainda.</p></div></div>
+    </div>
+  </div>
+
+  <!-- ── PAGE: METAS ── -->
+  <div id="p-metas" class="page">
+    <div class="card">
+      <div class="card-title">Nova meta</div>
+      <div class="form-grid">
+        <div><label>Descrição</label><input type="text" id="meta-desc" placeholder="Ex: Reserva de emergência"></div>
+        <div><label>Prazo</label><input type="date" id="meta-prazo"></div>
+        <div><label>Valor da meta (R$)</label><input type="text" id="meta-valor" placeholder="0,00"></div>
+        <div><label>Valor atual (R$)</label><input type="text" id="meta-atual" placeholder="0,00"></div>
+      </div>
+      <button class="btn-primary" onclick="addMeta()">+ Adicionar meta</button>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Suas metas</div>
+      <div id="metas-list"><div class="empty-state"><p>Nenhuma meta cadastrada ainda.</p></div></div>
+    </div>
+  </div>
+
+</div><!-- /shell -->
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <button class="nav-btn active" id="nav-dashboard" onclick="navTo('dashboard')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+    <span>Início</span>
+  </button>
+  <button class="nav-btn" id="nav-lancamentos" onclick="navTo('lancamentos')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span>Lançamentos</span>
+  </button>
+  <button class="nav-btn" id="nav-cronicas" onclick="navTo('cronicas')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg>
+    <span>Crônicas</span>
+  </button>
+  <button class="nav-btn" id="nav-investimentos" onclick="navTo('investimentos')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg>
+    <span>Investir</span>
+  </button>
+  <button class="nav-btn" id="nav-metas" onclick="navTo('metas')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>
+    <span>Metas</span>
+  </button>
+</nav>
+
+</div><!-- /app -->
+
+<!-- SETTINGS MODAL -->
+<div class="modal-overlay" id="settings-modal">
+  <div class="modal-box">
+    <h3>Configurações</h3>
+    <div class="field"><label>Nome da casa</label><input type="text" id="set-casa"></div>
+    <div class="field"><label>Nome do titular</label><input type="text" id="set-titular"></div>
+    <div class="field"><label>Nome do parceiro(a)</label><input type="text" id="set-parceiro"></div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeSettings()">Cancelar</button>
+      <button class="btn-primary" style="flex:1;margin-top:0" onclick="saveSettings()">Salvar</button>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-danger" style="width:100%" onclick="doLogout()">Sair da conta</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script>
+// ════════════════════════════════════════════════════════════════════════
+// CASAL NO CONTROLE — APLICAÇÃO
+// ════════════════════════════════════════════════════════════════════════
+
+const SUPA_READY = !!(SUPABASE_URL && SUPABASE_ANON_KEY
+  && !SUPABASE_URL.includes('COLOQUE_AQUI') && !SUPABASE_ANON_KEY.includes('COLOQUE_AQUI'));
+
+let supa = null;
+if (SUPA_READY) {
+  supa = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+}
+
+// ── STATE ──────────────────────────────────────────────────────────────
+let session = null;
+let household = null;
+let usuarios = [];
+let titular = null;
+let parceiro = null;
+
+const today = new Date();
+let curYear = today.getFullYear();
+let curMonthNum = today.getMonth() + 1;
+
+let expRows = [];     // {id?, descricao, categoria, valor, responsavel_pagamento}
+let schRows = [];     // {id?, descricao, valor}
+let sicRows = [];     // {id?, descricao, valor}
+
+let invList = [];
+let metasList = [];
+let historyCache = null;
+
+let curPage = 'dashboard';
+let curSubTab = 'mensal';
+const hiddenYears = new Set();
+
+const MONTHS_LBL = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
+const MONTHS_FULL = ["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
+const YEAR_PALETTE = ["#8C97A1","#C9A24C","#0B3B5C","#9c7a2e","#0E8F6E","#2563eb","#9333ea"];
+
+// ── UTILITIES ──────────────────────────────────────────────────────────
+const $ = id => document.getElementById(id);
+const rnd = v => Math.round((Number(v)||0)*100)/100;
+const fmtR = v => 'R$\u00a0' + rnd(v).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const fmtN = v => rnd(v).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const parseV = s => parseFloat(String(s).replace(/\./g,'').replace(',','.')) || 0;
+const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+const pad2 = n => String(n).padStart(2,'0');
+const monthStart = (y,m) => `${y}-${pad2(m)}-01`;
+const monthEnd = (y,m) => { const d = new Date(y, m, 1); return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-01`; };
+
+let toastT;
+function toast(msg, isError) {
+  const el = $('toast');
+  el.textContent = msg;
+  el.className = 'toast show' + (isError ? ' error' : '');
+  clearTimeout(toastT);
+  toastT = setTimeout(() => el.classList.remove('show'), 2600);
+}
+
+function varPct(cur, prev) { if (prev === null || prev === undefined || prev === 0) return null; return (cur - prev) / prev * 100; }
+function fmtVarCell(pct) {
+  if (pct === null || pct === undefined) return `<span class="var-na">—</span>`;
+  const cls = pct >= 0 ? 'var-up' : 'var-dn';
+  return `<span class="${cls}">${pct>=0?'▲':'▼'}${Math.abs(pct).toFixed(1)}%</span>`;
+}
+
+// ── AUTH ───────────────────────────────────────────────────────────────
+function setAuthTab(tab) {
+  $('tab-login').classList.toggle('active', tab==='login');
+  $('tab-signup').classList.toggle('active', tab==='signup');
+  $('form-login').style.display = tab==='login' ? 'block' : 'none';
+  $('form-signup').style.display = tab==='signup' ? 'block' : 'none';
+  hideAuthMsg();
+}
+function showAuthMsg(msg, isError) {
+  const el = $('auth-msg');
+  el.textContent = msg;
+  el.className = 'auth-msg show ' + (isError ? 'error' : 'ok');
+}
+function hideAuthMsg() { $('auth-msg').className = 'auth-msg'; }
+
+async function doLogin(ev) {
+  ev.preventDefault();
+  if (!SUPA_READY) { showAuthMsg('Configure SUPABASE_URL e SUPABASE_ANON_KEY em config.js primeiro.', true); return false; }
+  $('btn-login').disabled = true;
+  const email = $('login-email').value.trim();
+  const password = $('login-pass').value;
+  const { data, error } = await supa.auth.signInWithPassword({ email, password });
+  $('btn-login').disabled = false;
+  if (error) { showAuthMsg(traduzErro(error.message), true); return false; }
+  session = data.session;
+  await afterLogin();
+  return false;
+}
+
+async function doSignup(ev) {
+  ev.preventDefault();
+  if (!SUPA_READY) { showAuthMsg('Configure SUPABASE_URL e SUPABASE_ANON_KEY em config.js primeiro.', true); return false; }
+  $('btn-signup').disabled = true;
+  const email = $('su-email').value.trim();
+  const password = $('su-pass').value;
+  const nome_casa = $('su-casa').value.trim();
+  const titular_nome = $('su-titular').value.trim();
+  const parceiro_nome = $('su-parceiro').value.trim();
+
+  const { data, error } = await supa.auth.signUp({
+    email, password,
+    options: { data: { nome_casa, titular_nome, parceiro_nome } }
+  });
+  $('btn-signup').disabled = false;
+  if (error) { showAuthMsg(traduzErro(error.message), true); return false; }
+
+  if (data.session) {
+    session = data.session;
+    showAuthMsg('Conta criada com sucesso!', false);
+    await afterLogin();
+  } else {
+    showAuthMsg('Conta criada! Verifique seu e-mail para confirmar o acesso, depois faça login.', false);
+    setAuthTab('login');
+  }
+  return false;
+}
+
+function traduzErro(msg) {
+  if (/invalid login credentials/i.test(msg)) return 'E-mail ou senha incorretos.';
+  if (/already registered/i.test(msg)) return 'Este e-mail já está cadastrado. Tente entrar.';
+  if (/password should be/i.test(msg)) return 'A senha precisa ter pelo menos 6 caracteres.';
+  return msg;
+}
+
+async function doLogout() {
+  if (supa) await supa.auth.signOut();
+  session = null; household = null; usuarios = []; titular = null; parceiro = null;
+  closeSettings();
+  $('app').classList.remove('active');
+  $('auth-screen').style.display = 'flex';
+}
+
+async function checkExistingSession() {
+  if (!SUPA_READY) {
+    $('setup-note').innerHTML = '⚠️ <strong>config.js</strong> ainda não está configurado com seu projeto Supabase. Veja o README.md para o passo a passo.';
+    return;
+  }
+  $('setup-note').style.display = 'none';
+  const { data } = await supa.auth.getSession();
+  if (data.session) { session = data.session; await afterLogin(); }
+}
+
+async function afterLogin() {
+  $('auth-screen').style.display = 'none';
+  $('app').classList.add('active');
+  await loadHousehold();
+  await loadUsuarios();
+  $('house-name').textContent = household ? household.nome : '—';
+  await loadMonth();
+  navTo('dashboard');
+}
+
+async function loadHousehold() {
+  const { data, error } = await supa.from('households').select('*').limit(1).maybeSingle();
+  if (error) { toast('Erro ao carregar dados da casa', true); return; }
+  household = data;
+}
+
+async function loadUsuarios() {
+  const { data, error } = await supa.from('usuarios').select('*').eq('household_id', household.id);
+  if (error) { toast('Erro ao carregar usuários', true); return; }
+  usuarios = data || [];
+  titular = usuarios.find(u => u.perfil === 'titular') || null;
+  parceiro = usuarios.find(u => u.perfil === 'parceiro') || null;
+  if (parceiro) {
+    $('sc-lp-lbl').textContent = `${parceiro.nome} pagou`;
+    $('d-deve-lbl').textContent = `${parceiro.nome} deve das despesas`;
+    $('a-sub').textContent = `${parceiro.nome} transfere para ${titular ? titular.nome : 'o(a) titular'}`;
+  }
+}
+
+// ── SETTINGS MODAL ────────────────────────────────────────────────────
+function openSettings() {
+  $('set-casa').value = household ? household.nome : '';
+  $('set-titular').value = titular ? titular.nome : '';
+  $('set-parceiro').value = parceiro ? parceiro.nome : '';
+  $('settings-modal').classList.add('show');
+}
+function closeSettings() { $('settings-modal').classList.remove('show'); }
+
+async function saveSettings() {
+  const novaCasa = $('set-casa').value.trim();
+  const novoTitular = $('set-titular').value.trim();
+  const novoParceiro = $('set-parceiro').value.trim();
+
+  if (novaCasa && household) {
+    await supa.from('households').update({ nome: novaCasa }).eq('id', household.id);
+    household.nome = novaCasa;
+  }
+  if (novoTitular && titular) {
+    await supa.from('usuarios').update({ nome: novoTitular }).eq('id', titular.id);
+    titular.nome = novoTitular;
+  }
+  if (novoParceiro && parceiro) {
+    await supa.from('usuarios').update({ nome: novoParceiro }).eq('id', parceiro.id);
+    parceiro.nome = novoParceiro;
+  }
+  $('house-name').textContent = household.nome;
+  if (parceiro) {
+    $('sc-lp-lbl').textContent = `${parceiro.nome} pagou`;
+    $('d-deve-lbl').textContent = `${parceiro.nome} deve das despesas`;
+    $('a-sub').textContent = `${parceiro.nome} transfere para ${titular ? titular.nome : 'o(a) titular'}`;
+  }
+  closeSettings();
+  toast('Configurações salvas');
+  recalcMonth();
+}
+
+// ── NAVIGATION ────────────────────────────────────────────────────────
+function navTo(page) {
+  curPage = page;
+  ['dashboard','lancamentos','cronicas','investimentos','metas'].forEach(p => {
+    $('p-'+p).classList.toggle('active', p===page);
+    $('nav-'+p).classList.toggle('active', p===page);
+  });
+  if (page === 'dashboard') buildDashboard();
+  if (page === 'cronicas') buildCronicas();
+  if (page === 'investimentos') buildInvestimentos();
+  if (page === 'metas') buildMetas();
+}
+
+// ════════════════════════════════════════════════════════════════════════
+// LANÇAMENTOS — MONTH LEDGER
+// ════════════════════════════════════════════════════════════════════════
+
+function changeMonth(delta) {
+  curMonthNum += delta;
+  if (curMonthNum > 12) { curMonthNum = 1; curYear++; }
+  if (curMonthNum < 1) { curMonthNum = 12; curYear--; }
+  loadMonth();
+}
+
+async function loadMonth() {
+  $('month-label').textContent = `${MONTHS_FULL[curMonthNum-1]} / ${curYear}`;
+  if (!household) { renderMonthTables(); recalcMonth(); return; }
+
+  const start = monthStart(curYear, curMonthNum);
+  const end = monthEnd(curYear, curMonthNum);
+
+  const [expRes, schRes, sicRes] = await Promise.all([
+    supa.from('despesas').select('*').eq('household_id', household.id).gte('data', start).lt('data', end).order('created_at'),
+    supa.from('schultz_bank').select('*').eq('household_id', household.id).gte('data', start).lt('data', end).order('created_at'),
+    supa.from('sicredi_black').select('*').eq('household_id', household.id).gte('data', start).lt('data', end).order('created_at')
+  ]);
+
+  expRows = (expRes.data || []).map(r => ({ id:r.id, descricao:r.descricao||'', valor:Number(r.valor), responsavel_pagamento:r.responsavel_pagamento }));
+  schRows = (schRes.data || []).map(r => ({ id:r.id, descricao:r.descricao||'', valor:Number(r.valor) }));
+  sicRows = (sicRes.data || []).map(r => ({ id:r.id, descricao:r.descricao||'', valor:Number(r.valor) }));
+
+  renderMonthTables();
+  recalcMonth();
+  checkImportBanner();
+}
+
+function expRowHtml(item) {
+  const tr = document.createElement('tr');
+  const titularSel = item.responsavel_pagamento === (titular && titular.id);
+  tr.innerHTML = `
+    <td class="td-name"><input class="inp inp-name in" value="${esc(item.descricao)}" oninput="recalcMonth()"></td>
+    <td class="td-who"><select class="sel iw" onchange="recalcMonth()">
+      <option value="${titular?titular.id:''}"${titularSel?' selected':''}>${titular?esc(titular.nome):'Titular'}</option>
+      <option value="${parceiro?parceiro.id:''}"${!titularSel?' selected':''}>${parceiro?esc(parceiro.nome):'Parceiro'}</option>
+    </select></td>
+    <td class="td-val"><input class="inp inp-val iv" value="${fmtN(item.valor)}" oninput="recalcMonth()"></td>
+    <td class="td-del"><button class="btn-rm" onclick="this.closest('tr').remove();recalcMonth()">×</button></td>`;
+  return tr;
+}
+function simRowHtml(item) {
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td class="td-sname"><input class="inp inp-name in" value="${esc(item.descricao)}" oninput="recalcMonth()"></td>
+    <td class="td-sval"><input class="inp inp-val iv" value="${fmtN(item.valor)}" oninput="recalcMonth()"></td>
+    <td class="td-sdel"><button class="btn-rm" onclick="this.closest('tr').remove();recalcMonth()">×</button></td>`;
+  return tr;
+}
+
+function renderMonthTables() {
+  const eb = $('exp-body'), sb = $('sch-body'), scb = $('sic-body');
+  eb.innerHTML=''; sb.innerHTML=''; scb.innerHTML='';
+  expRows.forEach(r => eb.appendChild(expRowHtml(r)));
+  schRows.forEach(r => sb.appendChild(simRowHtml(r)));
+  sicRows.forEach(r => scb.appendChild(simRowHtml(r)));
+}
+
+function addExpRow() { $('exp-body').appendChild(expRowHtml({descricao:'Nova despesa', valor:0, responsavel_pagamento: titular?titular.id:null})); recalcMonth(); }
+function addSchRow() { $('sch-body').appendChild(simRowHtml({descricao:'Novo item', valor:0})); recalcMonth(); }
+function addSicRow() { $('sic-body').appendChild(simRowHtml({descricao:'Novo item', valor:0})); recalcMonth(); }
+
+function readDOMRows() {
+  const exp = [...document.querySelectorAll('#exp-body tr')].map(tr => ({
+    descricao: tr.querySelector('.in').value,
+    valor: parseV(tr.querySelector('.iv').value),
+    responsavel_pagamento: tr.querySelector('.iw').value || null
+  }));
+  const sch = [...document.querySelectorAll('#sch-body tr')].map(tr => ({
+    descricao: tr.querySelector('.in').value, valor: parseV(tr.querySelector('.iv').value)
+  }));
+  const sic = [...document.querySelectorAll('#sic-body tr')].map(tr => ({
+    descricao: tr.querySelector('.in').value, valor: parseV(tr.querySelector('.iv').value)
+  }));
+  return { exp, sch, sic };
+}
+
+function calcAcerto(exp, sch, sic) {
+  const totalAP = rnd(exp.reduce((s,e)=>s+e.valor,0));
+  const cota = rnd(totalAP/2);
+  const pagoParceiro = rnd(exp.filter(e => parceiro && e.responsavel_pagamento===parceiro.id).reduce((s,e)=>s+e.valor,0));
+  const deve = rnd(cota - pagoParceiro);
+  const schT = rnd(sch.reduce((s,e)=>s+e.valor,0));
+  const sicT = rnd(sic.reduce((s,e)=>s+e.valor,0));
+  const sicC = rnd(sicT/2);
+  const acerto = rnd(deve + schT + sicC);
+  return { totalAP, cota, pagoParceiro, deve, schT, sicT, sicC, acerto };
+}
+
+function recalcMonth() {
+  const { exp, sch, sic } = readDOMRows();
+  const r = calcAcerto(exp, sch, sic);
+
+  $('sc-tap').textContent = fmtR(r.totalAP);
+  $('sc-cota').textContent = fmtR(r.cota);
+  $('sc-lp').textContent = fmtR(r.pagoParceiro);
+  $('sc-ac').textContent = fmtR(r.acerto);
+
+  $('d-tap').textContent = fmtR(r.totalAP);
+  $('d-cota').textContent = fmtR(r.cota);
+  $('d-deve').textContent = fmtR(r.deve);
+  $('d-sch').textContent = fmtR(r.schT);
+  $('d-sic').textContent = fmtR(r.sicT);
+  $('d-sicc').textContent = fmtR(r.sicC);
+
+  $('a-val').textContent = fmtR(r.acerto);
+  $('b-deve').textContent = fmtR(r.deve);
+  $('b-sch').textContent = fmtR(r.schT);
+  $('b-sic').textContent = fmtR(r.sicC);
+  $('b-tot').textContent = fmtR(r.acerto);
+
+  return r;
+}
+
+async function saveMonth() {
+  if (!household) { toast('Conecte o Supabase primeiro', true); return; }
+  const btn = $('btn-save-month');
+  btn.disabled = true;
+  const { exp, sch, sic } = readDOMRows();
+  const start = monthStart(curYear, curMonthNum);
+
+  try {
+    await supa.from('despesas').delete().eq('household_id', household.id).gte('data', start).lt('data', monthEnd(curYear, curMonthNum));
+    await supa.from('schultz_bank').delete().eq('household_id', household.id).gte('data', start).lt('data', monthEnd(curYear, curMonthNum));
+    await supa.from('sicredi_black').delete().eq('household_id', household.id).gte('data', start).lt('data', monthEnd(curYear, curMonthNum));
+
+    if (exp.length) await supa.from('despesas').insert(exp.map(e => ({
+      household_id: household.id, data: start, categoria: 'Apartamento',
+      descricao: e.descricao, valor: e.valor, responsavel_pagamento: e.responsavel_pagamento
+    })));
+    if (sch.length) await supa.from('schultz_bank').insert(sch.map(e => ({
+      household_id: household.id, data: start, descricao: e.descricao, valor: e.valor
+    })));
+    if (sic.length) await supa.from('sicredi_black').insert(sic.map(e => ({
+      household_id: household.id, data: start, descricao: e.descricao, valor: e.valor
+    })));
+
+    toast('Lançamentos do mês salvos ✓');
+    await loadMonth();
+    historyCache = null;
+  } catch (e) {
+    toast('Erro ao salvar: ' + e.message, true);
+  }
+  btn.disabled = false;
+}
+
+// ── IMPORT HISTORICAL SEED ───────────────────────────────────────────
+async function checkImportBanner() {
+  const wrap = $('import-banner-wrap');
+  wrap.innerHTML = '';
+  if (!household) return;
+  const { count } = await supa.from('historico_mensal').select('id', { count: 'exact', head: true }).eq('household_id', household.id);
+  if (count && count > 0) return;
+  wrap.innerHTML = `
+    <div class="import-banner">
+      <p>Detectamos dados históricos conhecidos (2022–2026). Quer importar agora?</p>
+      <button class="btn-import" onclick="importHistorico()">Importar</button>
+    </div>`;
+}
+
+async function importHistorico() {
+  if (!household || !titular || !parceiro) { toast('Aguarde o carregamento dos dados da casa', true); return; }
+  toast('Importando histórico…');
+  try {
+    const seed = APP_CONFIG.historicoSeed;
+    const histRows = [];
+    Object.keys(seed).forEach(ano => {
+      seed[ano].forEach((total, idx) => {
+        histRows.push({ household_id: household.id, ano: Number(ano), mes: idx+1, total });
+      });
+    });
+    if (histRows.length) await supa.from('historico_mensal').upsert(histRows, { onConflict: 'household_id,ano,mes' });
+
+    for (const m of APP_CONFIG.seed2026) {
+      const data = monthStart(2026, m.mes);
+      const expIns = m.ap.map(([descricao,valor,perfil]) => ({
+        household_id: household.id, data, categoria: 'Apartamento', descricao, valor,
+        responsavel_pagamento: perfil === 'titular' ? titular.id : parceiro.id
+      }));
+      const schIns = m.schultz.map(([descricao,valor]) => ({ household_id: household.id, data, descricao, valor }));
+      const sicIns = m.sicredi.map(([descricao,valor]) => ({ household_id: household.id, data, descricao, valor }));
+      if (expIns.length) await supa.from('despesas').insert(expIns);
+      if (schIns.length) await supa.from('schultz_bank').insert(schIns);
+      if (sicIns.length) await supa.from('sicredi_black').insert(sicIns);
+    }
+    toast('Histórico importado com sucesso ✓');
+    historyCache = null;
+    await loadMonth();
+  } catch (e) {
+    toast('Erro ao importar: ' + e.message, true);
+  }
+}
+
+// ════════════════════════════════════════════════════════════════════════
+// CRÔNICAS — HISTORICAL ANALYTICS
+// ════════════════════════════════════════════════════════════════════════
+
+async function buildHistoryData() {
+  if (historyCache) return historyCache;
+  if (!household) return {};
+
+  const { data: histRows } = await supa.from('historico_mensal').select('*').eq('household_id', household.id);
+  const { data: expAll } = await supa.from('despesas').select('data,valor').eq('household_id', household.id);
+  const { data: schAll } = await supa.from('schultz_bank').select('data,valor').eq('household_id', household.id);
+  const { data: sicAll } = await supa.from('sicredi_black').select('data,valor').eq('household_id', household.id);
+
+  const hist = {};
+  (histRows||[]).forEach(r => {
+    hist[r.ano] = hist[r.ano] || Array(12).fill(null);
+    hist[r.ano][r.mes-1] = Number(r.total);
+  });
+
+  const sumByYearMonth = {};
+  const addRow = (data, valor) => {
+    const d = new Date(data);
+    const y = d.getUTCFullYear(); const m = d.getUTCMonth();
+    sumByYearMonth[y] = sumByYearMonth[y] || Array(12).fill(0);
+    const arr = sumByYearMonth[y];
+    sumByYearMonth[y+'_has'] = sumByYearMonth[y+'_has'] || Array(12).fill(false);
+    arr[m] = rnd(arr[m] + Number(valor));
+    sumByYearMonth[y+'_has'][m] = true;
+  };
+  (expAll||[]).forEach(r => addRow(r.data, r.valor));
+  (schAll||[]).forEach(r => addRow(r.data, r.valor));
+  (sicAll||[]).forEach(r => addRow(r.data, r.valor));
+
+  Object.keys(sumByYearMonth).filter(k => !k.includes('_has')).forEach(y => {
+    const arr = sumByYearMonth[y];
+    const has = sumByYearMonth[y+'_has'];
+    hist[y] = hist[y] || Array(12).fill(null);
+    for (let i=0;i<12;i++) { if (has[i]) hist[y][i] = arr[i]; }
+  });
+
+  const years = Object.keys(hist).sort();
+  const result = {};
+  years.forEach(y => result[y] = hist[y]);
+  historyCache = result;
+  return result;
+}
+
+function annualTotal(yr, hist) {
+  const vals = (hist[yr]||[]).filter(v => v !== null);
+  return vals.length ? rnd(vals.reduce((s,v)=>s+v,0)) : 0;
+}
+
+async function buildCronicas() {
+  const hist = await buildHistoryData();
+  buildYearCards(hist);
+  if (curSubTab === 'mensal') buildMonthlyView(hist); else buildAnnualView(hist);
+}
+
+function setSubTab(tab) {
+  curSubTab = tab;
+  $('st-mensal').classList.toggle('active', tab==='mensal');
+  $('st-anual').classList.toggle('active', tab==='anual');
+  $('view-mensal').style.display = tab==='mensal' ? 'block' : 'none';
+  $('view-anual').style.display = tab==='anual' ? 'block' : 'none';
+  buildCronicas();
+}
+
+function buildYearCards(hist) {
+  const years = Object.keys(hist);
+  const wrap = $('year-cards'); wrap.innerHTML = '';
+  if (!years.length) { wrap.innerHTML = '<div class="empty-state"><p>Ainda não há dados históricos. Importe na página Lançamentos.</p></div>'; return; }
+  years.forEach((yr,i) => {
+    const tot = annualTotal(yr, hist);
+    const prevTot = i>0 ? annualTotal(years[i-1], hist) : null;
+    const pct = varPct(tot, prevTot);
+    const isCur = Number(yr) === today.getFullYear();
+    const card = document.createElement('div');
+    card.className = 'year-card' + (isCur ? ' cur' : '');
+    const varHtml = pct===null ? `<div class="yc-var" style="color:var(--ink-4)">—</div>` :
+      `<div class="yc-var" style="color:${pct>=0?'var(--red)':'var(--green)'}">${pct>=0?'▲':'▼'}${Math.abs(pct).toFixed(1)}%</div>`;
+    card.innerHTML = `<div class="yc-year">${yr}</div><div class="yc-total">${fmtR(tot)}</div>${varHtml}`;
+    wrap.appendChild(card);
+  });
+}
+
+function buildMonthlyView(hist) {
+  drawMonthlyChart(hist);
+  buildMonthlyTable(hist);
+}
+
+function drawMonthlyChart(hist) {
+  const svg = $('monthly-chart'); const legend = $('monthly-legend');
+  svg.innerHTML=''; legend.innerHTML='';
+  const years = Object.keys(hist);
+  if (!years.length) return;
+  const visYears = years.filter(y => !hiddenYears.has(y));
+  const allVals = visYears.flatMap(y => (hist[y]||[]).filter(v=>v!==null));
+  const W=580,H=230, PAD={t:20,r:18,b:36,l:54};
+  const cW=W-PAD.l-PAD.r, cH=H-PAD.t-PAD.b;
+  const maxV = allVals.length ? Math.ceil(Math.max(...allVals)/1000)*1000+1000 : 1000;
+  const xOf = i => PAD.l + i*(cW/11);
+  const yOf = v => PAD.t + cH - (v/maxV)*cH;
+
+  let html = `<rect x="${PAD.l}" y="${PAD.t}" width="${cW}" height="${cH}" fill="#F5F8F7" rx="6"/>`;
+  for (let g=0; g<=5; g++) {
+    const v = maxV*g/5; const y = yOf(v);
+    html += `<line x1="${PAD.l}" y1="${y}" x2="${PAD.l+cW}" y2="${y}" stroke="#E7ECEA" stroke-width="1"/>`;
+    html += `<text x="${PAD.l-6}" y="${y+4}" text-anchor="end" font-family="JetBrains Mono,monospace" font-size="9" fill="#8C97A1">${v>=1000?(v/1000).toFixed(0)+'k':v}</text>`;
+  }
+  MONTHS_LBL.forEach((m,i) => { html += `<text x="${xOf(i)}" y="${PAD.t+cH+16}" text-anchor="middle" font-family="Inter,sans-serif" font-weight="600" font-size="9" fill="#8C97A1">${m}</text>`; });
+
+  years.forEach((yr,idx) => {
+    const col = YEAR_PALETTE[idx % YEAR_PALETTE.length];
+    const vals = hist[yr]||[];
+    const pts = vals.map((v,i)=> v!==null ? {x:xOf(i), y:yOf(v)} : null);
+    const opacity = hiddenYears.has(yr) ? 0.06 : 1;
+    let seg=[]; const segments=[];
+    pts.forEach(p => { if (p) seg.push(p); else { if (seg.length>1) segments.push(seg.slice()); seg=[]; } });
+    if (seg.length>1) segments.push(seg);
+    segments.forEach(s => {
+      let d = `M${s[0].x},${s[0].y}`;
+      for (let i=1;i<s.length;i++) { const p=s[i-1],c=s[i]; const cpx=(p.x+c.x)/2; d += ` C${cpx},${p.y} ${cpx},${c.y} ${c.x},${c.y}`; }
+      html += `<path d="${d}" fill="none" stroke="${col}" stroke-width="${Number(yr)===today.getFullYear()?2.4:1.6}" stroke-opacity="${opacity}" stroke-linecap="round"/>`;
+    });
+    pts.forEach((p,i) => { if (!p) return;
+      html += `<circle cx="${p.x}" cy="${p.y}" r="3" fill="${col}" opacity="${opacity}" class="chart-dot" data-yr="${yr}" data-mi="${i}" data-v="${vals[i]}"/>`;
+    });
+  });
+  svg.innerHTML = html;
+
+  svg.querySelectorAll('.chart-dot').forEach(dot => {
+    const show = () => {
+      const tip = $('chart-tip');
+      tip.textContent = `${dot.dataset.yr} · ${MONTHS_LBL[dot.dataset.mi]}: ${fmtR(parseFloat(dot.dataset.v))}`;
+      const rect = svg.getBoundingClientRect();
+      const cx = parseFloat(dot.getAttribute('cx')), cy = parseFloat(dot.getAttribute('cy'));
+      const px = cx/W*rect.width, py = cy/H*rect.height;
+      tip.style.left = Math.min(px+8, rect.width-130) + 'px';
+      tip.style.top = Math.max(py-30,0) + 'px';
+      tip.classList.add('show');
+    };
+    dot.addEventListener('mouseenter', show);
+    dot.addEventListener('click', show);
+    dot.addEventListener('mouseleave', () => $('chart-tip').classList.remove('show'));
+  });
+
+  years.forEach((yr,idx) => {
+    const col = YEAR_PALETTE[idx % YEAR_PALETTE.length];
+    const li = document.createElement('div');
+    li.className = 'legend-item' + (hiddenYears.has(yr) ? ' hidden' : '');
+    li.innerHTML = `<div class="legend-dot" style="background:${col}"></div><span class="legend-lbl">${yr}</span>`;
+    li.addEventListener('click', () => { hiddenYears.has(yr) ? hiddenYears.delete(yr) : hiddenYears.add(yr); li.classList.toggle('hidden'); drawMonthlyChart(hist); });
+    legend.appendChild(li);
+  });
+}
+
+function buildMonthlyTable(hist) {
+  const years = Object.keys(hist);
+  const tbl = $('monthly-tbl');
+  if (!years.length) { tbl.innerHTML = ''; return; }
+  let html = `<thead><tr><th>Mês</th>`;
+  years.forEach(yr => html += `<th>${yr}</th>`);
+  html += `<th>Var. MoM</th></tr></thead><tbody>`;
+  const lastYr = years[years.length-1];
+  MONTHS_LBL.forEach((lbl,mi) => {
+    html += `<tr><td>${lbl}</td>`;
+    years.forEach(yr => { const v = (hist[yr]||[])[mi]; const cls = Number(yr)===today.getFullYear()?' class="cur-yr"':''; html += `<td${cls}>${v!==null&&v!==undefined?fmtR(v):'<span class="var-na">—</span>'}</td>`; });
+    const curV = (hist[lastYr]||[])[mi], prevV = mi>0 ? (hist[lastYr]||[])[mi-1] : null;
+    html += `<td>${fmtVarCell(varPct(curV, prevV))}</td></tr>`;
+  });
+  html += `<tr style="border-top:2px solid var(--line)"><td style="color:var(--green);font-weight:700">Total</td>`;
+  years.forEach(yr => html += `<td style="color:var(--green);font-weight:700">${fmtR(annualTotal(yr,hist))}</td>`);
+  html += `<td></td></tr></tbody>`;
+  tbl.innerHTML = html;
+}
+
+function buildAnnualView(hist) { drawAnnualChart(hist); buildAnnualTable(hist); }
+
+function drawAnnualChart(hist) {
+  const svg = $('annual-chart'); svg.innerHTML='';
+  const years = Object.keys(hist);
+  if (!years.length) return;
+  const totals = years.map(y => annualTotal(y, hist));
+  const maxT = Math.ceil(Math.max(...totals,1)/10000)*10000 + 10000;
+  const W=580,H=230, PAD={t:36,r:18,b:36,l:58};
+  const cW=W-PAD.l-PAD.r, cH=H-PAD.t-PAD.b;
+  const n = years.length, gap = cW/n, bW = Math.min(72, gap*0.62);
+
+  let html = `<rect x="${PAD.l}" y="${PAD.t}" width="${cW}" height="${cH}" fill="#F5F8F7" rx="6"/>`;
+  [0,.25,.5,.75,1].forEach(f => {
+    const v=maxT*f, y=PAD.t+cH-f*cH;
+    html += `<line x1="${PAD.l}" y1="${y}" x2="${PAD.l+cW}" y2="${y}" stroke="#E7ECEA" stroke-width="1"/>`;
+    if (f>0) html += `<text x="${PAD.l-6}" y="${y+4}" text-anchor="end" font-family="JetBrains Mono,monospace" font-size="9" fill="#8C97A1">${(v/1000).toFixed(0)}k</text>`;
+  });
+
+  years.forEach((yr,i) => {
+    const tot = totals[i]; const barH = rnd((tot/maxT)*cH);
+    const bx = PAD.l + gap*i + (gap-bW)/2, by = PAD.t+cH-barH;
+    const col = YEAR_PALETTE[i % YEAR_PALETTE.length];
+    const prevTot = i>0 ? totals[i-1] : null;
+    const pct = varPct(tot, prevTot);
+    const gid = `bg${i}`;
+    html += `<defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${col}" stop-opacity=".95"/><stop offset="100%" stop-color="${col}" stop-opacity=".55"/></linearGradient></defs>`;
+    html += `<rect x="${bx}" y="${by}" width="${bW}" height="${Math.max(barH,2)}" fill="url(#${gid})" rx="4" class="ann-bar" data-yr="${yr}" data-v="${tot}"/>`;
+    html += `<text x="${bx+bW/2}" y="${PAD.t+cH+16}" text-anchor="middle" font-family="Inter,sans-serif" font-weight="700" font-size="10" fill="#54616E">${yr}</text>`;
+    html += `<text x="${bx+bW/2}" y="${by-6}" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="${col}">${(tot/1000).toFixed(1)}k</text>`;
+    if (pct!==null) { const vc = pct>=0?'#D1453B':'#0E8F6E'; html += `<text x="${bx+bW/2}" y="${by-17}" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="${vc}">${pct>=0?'▲':'▼'}${Math.abs(pct).toFixed(1)}%</text>`; }
+  });
+  svg.innerHTML = html;
+
+  svg.querySelectorAll('.ann-bar').forEach(bar => {
+    const show = () => {
+      const tip = $('ann-tip'); tip.textContent = `${bar.dataset.yr}: ${fmtR(parseFloat(bar.dataset.v))}`;
+      const rect = svg.getBoundingClientRect();
+      const bx = parseFloat(bar.getAttribute('x')), by = parseFloat(bar.getAttribute('y')), w = parseFloat(bar.getAttribute('width'));
+      tip.style.left = ((bx+w/2)/W*rect.width) + 'px';
+      tip.style.top = Math.max((by/H*rect.height)-32,0) + 'px';
+      tip.classList.add('show');
+    };
+    bar.addEventListener('mouseenter', show); bar.addEventListener('click', show);
+    bar.addEventListener('mouseleave', () => $('ann-tip').classList.remove('show'));
+  });
+}
+
+function buildAnnualTable(hist) {
+  const years = Object.keys(hist);
+  const tbl = $('annual-tbl');
+  if (!years.length) { tbl.innerHTML = ''; return; }
+  let html = `<thead><tr><th>Ano</th><th>Total</th><th>Média/mês</th><th>Var. YoY</th><th>Maior mês</th><th>Menor mês</th></tr></thead><tbody>`;
+  years.forEach((yr,i) => {
+    const vals = (hist[yr]||[]).filter(v=>v!==null);
+    if (!vals.length) return;
+    const tot = rnd(vals.reduce((s,v)=>s+v,0));
+    const avg = rnd(tot/vals.length);
+    const maxV = Math.max(...vals), minV = Math.min(...vals);
+    const maxI = hist[yr].indexOf(maxV), minI = hist[yr].indexOf(minV);
+    const prevTot = i>0 ? annualTotal(years[i-1], hist) : null;
+    const pct = varPct(tot, prevTot);
+    const isCur = Number(yr) === today.getFullYear();
+    html += `<tr><td style="${isCur?'color:var(--green)':''}">${yr}</td><td class="${isCur?'cur-yr':''}">${fmtR(tot)}</td><td>${fmtR(avg)}</td><td>${fmtVarCell(pct)}</td><td style="color:var(--red)">${MONTHS_LBL[maxI]} ${fmtR(maxV)}</td><td style="color:var(--green)">${MONTHS_LBL[minI]} ${fmtR(minV)}</td></tr>`;
+  });
+  html += `</tbody>`;
+  tbl.innerHTML = html;
+}
+
+// ════════════════════════════════════════════════════════════════════════
+// INVESTIMENTOS
+// ════════════════════════════════════════════════════════════════════════
+
+async function buildInvestimentos() {
+  if (!household) return;
+  const { data } = await supa.from('investimentos').select('*').eq('household_id', household.id).order('data_referencia', { ascending: false });
+  invList = data || [];
+  renderInvestimentos();
+}
+
+function renderInvestimentos() {
+  const total = rnd(invList.reduce((s,i)=>s+Number(i.valor),0));
+  $('inv-total').textContent = fmtR(total);
+  $('inv-count').textContent = invList.length;
+
+  const distWrap = $('inv-dist');
+  if (!invList.length) { distWrap.innerHTML = '<div class="empty-state"><p>Nenhum investimento cadastrado.</p></div>'; }
+  else {
+    const byCat = {};
+    invList.forEach(i => { const c = i.categoria || 'Outros'; byCat[c] = (byCat[c]||0) + Number(i.valor); });
+    const cats = Object.entries(byCat).sort((a,b)=>b[1]-a[1]);
+    distWrap.innerHTML = cats.map(([cat,val]) => {
+      const pct = total ? (val/total*100) : 0;
+      return `<div style="margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px">
+          <span style="font-weight:600">${esc(cat)}</span>
+          <span class="li-pct">${pct.toFixed(1)}% · ${fmtR(val)}</span>
+        </div>
+        <div class="dist-bar"><div class="dist-fill" style="width:${pct}%"></div></div>
+      </div>`;
+    }).join('');
+  }
+
+  const listWrap = $('inv-list');
+  if (!invList.length) { listWrap.innerHTML = '<div class="empty-state"><p>Nenhum investimento cadastrado ainda.</p></div>'; }
+  else {
+    listWrap.innerHTML = invList.map(i => `
+      <div class="list-item">
+        <div class="li-main">
+          <div class="li-title">${esc(i.ativo)}</div>
+          <div class="li-sub">${esc(i.instituicao)} ${i.categoria?'· '+esc(i.categoria):''} · ${new Date(i.data_referencia).toLocaleDateString('pt-BR')}</div>
+        </div>
+        <div class="li-val">${fmtR(i.valor)}</div>
+        <button class="btn-rm" onclick="deleteInvestimento('${i.id}')">×</button>
+      </div>`).join('');
+  }
+}
+
+async function addInvestimento() {
+  if (!household) { toast('Faça login primeiro', true); return; }
+  const instituicao = $('inv-instituicao').value.trim();
+  const ativo = $('inv-ativo').value.trim();
+  const categoria = $('inv-categoria').value.trim();
+  const valor = parseV($('inv-valor').value);
+  const data_referencia = $('inv-data').value || new Date().toISOString().slice(0,10);
+  if (!instituicao || !ativo || !valor) { toast('Preencha instituição, ativo e valor', true); return; }
+
+  const { error } = await supa.from('investimentos').insert({ household_id: household.id, instituicao, ativo, categoria, valor, data_referencia });
+  if (error) { toast('Erro: '+error.message, true); return; }
+  $('inv-instituicao').value=''; $('inv-ativo').value=''; $('inv-categoria').value=''; $('inv-valor').value=''; $('inv-data').value='';
+  toast('Investimento adicionado ✓');
+  buildInvestimentos();
+}
+
+async function deleteInvestimento(id) {
+  await supa.from('investimentos').delete().eq('id', id);
+  toast('Removido');
+  buildInvestimentos();
+}
+
+// ════════════════════════════════════════════════════════════════════════
+// METAS FINANCEIRAS
+// ════════════════════════════════════════════════════════════════════════
+
+async function buildMetas() {
+  if (!household) return;
+  const { data } = await supa.from('metas_financeiras').select('*').eq('household_id', household.id).order('created_at', { ascending: false });
+  metasList = data || [];
+  renderMetas();
+  renderDashMetas();
+}
+
+function renderMetas() {
+  const wrap = $('metas-list');
+  if (!metasList.length) { wrap.innerHTML = '<div class="empty-state"><p>Nenhuma meta cadastrada ainda.</p></div>'; return; }
+  wrap.innerHTML = metasList.map(m => {
+    const pct = m.valor_meta ? Math.min(100, (Number(m.valor_atual)/Number(m.valor_meta))*100) : 0;
+    return `<div style="margin-bottom:16px">
+      <div class="list-item" style="border-bottom:none;padding-bottom:0">
+        <div class="li-main">
+          <div class="li-title">${esc(m.descricao)}</div>
+          <div class="li-sub">${fmtR(m.valor_atual)} de ${fmtR(m.valor_meta)} ${m.prazo?'· até '+new Date(m.prazo).toLocaleDateString('pt-BR'):''}</div>
+        </div>
+        <div class="li-pct">${pct.toFixed(0)}%</div>
+        <button class="btn-rm" onclick="deleteMeta('${m.id}')">×</button>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    </div>`;
+  }).join('');
+}
+
+function renderDashMetas() {
+  const wrap = $('dash-metas');
+  if (!metasList.length) { wrap.innerHTML = '<div class="empty-state"><p>Nenhuma meta cadastrada ainda.</p></div>'; return; }
+  wrap.innerHTML = metasList.slice(0,3).map(m => {
+    const pct = m.valor_meta ? Math.min(100, (Number(m.valor_atual)/Number(m.valor_meta))*100) : 0;
+    return `<div style="margin-bottom:14px">
+      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px">
+        <span style="font-weight:600">${esc(m.descricao)}</span><span class="li-pct">${pct.toFixed(0)}%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    </div>`;
+  }).join('');
+}
+
+async function addMeta() {
+  if (!household) { toast('Faça login primeiro', true); return; }
+  const descricao = $('meta-desc').value.trim();
+  const valor_meta = parseV($('meta-valor').value);
+  const valor_atual = parseV($('meta-atual').value);
+  const prazo = $('meta-prazo').value || null;
+  if (!descricao || !valor_meta) { toast('Preencha a descrição e o valor da meta', true); return; }
+
+  const { error } = await supa.from('metas_financeiras').insert({ household_id: household.id, descricao, valor_meta, valor_atual, prazo });
+  if (error) { toast('Erro: '+error.message, true); return; }
+  $('meta-desc').value=''; $('meta-valor').value=''; $('meta-atual').value=''; $('meta-prazo').value='';
+  toast('Meta adicionada ✓');
+  buildMetas();
+}
+
+async function deleteMeta(id) {
+  await supa.from('metas_financeiras').delete().eq('id', id);
+  toast('Removida');
+  buildMetas();
+}
+
+// ════════════════════════════════════════════════════════════════════════
+// DASHBOARD
+// ════════════════════════════════════════════════════════════════════════
+
+async function buildDashboard() {
+  if (!household) return;
+  const { data: invData } = await supa.from('investimentos').select('valor');
+  const patrimonio = rnd((invData||[]).reduce((s,i)=>s+Number(i.valor),0));
+  $('dash-patrimonio').textContent = fmtR(patrimonio);
+
+  const r = calcAcerto(...Object.values(readDOMRows()));
+  $('dash-gasto-mes').textContent = fmtR(rnd(r.totalAP + r.schT + r.sicT));
+  $('dash-acerto').textContent = fmtR(r.acerto);
+
+  const hist = await buildHistoryData();
+  const years = Object.keys(hist);
+  let last12 = [];
+  years.forEach(y => (hist[y]||[]).forEach(v => { if (v!==null) last12.push(v); }));
+  last12 = last12.slice(-12);
+  const media = last12.length ? rnd(last12.reduce((s,v)=>s+v,0)/last12.length) : 0;
+  $('dash-media').textContent = fmtR(media);
+
+  drawDashChart(hist);
+  await buildMetas();
+}
+
+function drawDashChart(hist) {
+  const svg = $('dash-chart'); svg.innerHTML='';
+  const years = Object.keys(hist);
+  if (!years.length) return;
+  const lastYr = years[years.length-1];
+  const flat = [];
+  years.forEach(y => (hist[y]||[]).forEach((v,m) => { if (v!==null) flat.push({label:`${MONTHS_LBL[m]}/${String(y).slice(2)}`, v}); }));
+  const last6 = flat.slice(-6);
+  if (!last6.length) return;
+  const W=560,H=180, PAD={t:16,r:10,b:26,l:50};
+  const cW=W-PAD.l-PAD.r, cH=H-PAD.t-PAD.b;
+  const vals = last6.map(d=>d.v);
+  const maxV = Math.ceil(Math.max(...vals)/1000)*1000 + 500;
+  const xOf = i => PAD.l + i*(cW/(last6.length-1||1));
+  const yOf = v => PAD.t + cH - (v/maxV)*cH;
+
+  let html = `<rect x="${PAD.l}" y="${PAD.t}" width="${cW}" height="${cH}" fill="#F5F8F7" rx="6"/>`;
+  [0,.5,1].forEach(f => { const y=PAD.t+cH-f*cH; html += `<line x1="${PAD.l}" y1="${y}" x2="${PAD.l+cW}" y2="${y}" stroke="#E7ECEA"/>`; html += `<text x="${PAD.l-6}" y="${y+4}" text-anchor="end" font-family="JetBrains Mono,monospace" font-size="9" fill="#8C97A1">${(maxV*f/1000).toFixed(0)}k</text>`; });
+  last6.forEach((d,i) => html += `<text x="${xOf(i)}" y="${PAD.t+cH+16}" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="600" fill="#8C97A1">${d.label}</text>`);
+
+  let path = '';
+  last6.forEach((d,i) => { const x=xOf(i), y=yOf(d.v); path += (i===0?'M':'L') + x + ',' + y + ' '; });
+  html += `<path d="${path}" fill="none" stroke="#0E8F6E" stroke-width="2.4" stroke-linecap="round"/>`;
+  last6.forEach((d,i) => { const x=xOf(i), y=yOf(d.v); html += `<circle cx="${x}" cy="${y}" r="3.5" fill="#0E8F6E"/>`; });
+
+  svg.innerHTML = html;
+}
+
+// ════════════════════════════════════════════════════════════════════════
+// PWA — SERVICE WORKER
+// ════════════════════════════════════════════════════════════════════════
+if ('serviceWorker' in navigator) { navigator.serviceWorker.register('./sw.js').catch(()=>{}); }
+
+// ════════════════════════════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════════════════════════════
+checkExistingSession();
+
+</script>
+</body>
+</html>
