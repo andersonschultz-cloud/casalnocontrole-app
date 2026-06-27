@@ -7,6 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Casal no Controle">
 <meta name="theme-color" content="#040B16">
+<meta name="color-scheme" content="light dark">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -250,9 +251,151 @@ select option{background:#071524;color:#F3F8FC}
 .month-nav button:hover{box-shadow:0 0 18px rgba(0,191,234,.15)}
 .inp,.sel,.pay-inp,.field input,.form-grid input,.form-grid select{box-shadow:inset 0 1px 0 rgba(255,255,255,.02)}
 
+
+/* ═══════════════════════════════════════════════════════════════════════
+   TEMA CLARO / ESCURO + FUNDO VIVO DE CONECTIVIDADE
+═══════════════════════════════════════════════════════════════════════ */
+html{color-scheme:dark}
+body[data-theme="light"]{
+  --green:#199EC2;
+  --green-d:#117B9A;
+  --green-l:rgba(25,158,194,.13);
+  --blue:#0D4F73;
+  --blue-l:rgba(13,79,115,.10);
+  --gold:#B38A32;
+  --gold-l:rgba(179,138,50,.12);
+  --ink:#102746;
+  --ink-2:#506780;
+  --ink-3:#7C90A3;
+  --ink-4:#B9C7D2;
+  --bg:#F4FAFD;
+  --card:rgba(255,255,255,.78);
+  --line:rgba(57,132,169,.18);
+  --red:#D94F4F;
+  --red-l:rgba(217,79,79,.11);
+  --shadow:0 16px 40px rgba(32,86,115,.10),0 1px 2px rgba(32,86,115,.06);
+  --glow:0 0 28px rgba(39,185,222,.12);
+}
+body[data-theme="light"]{
+  background:
+    radial-gradient(circle at 15% 12%,rgba(74,202,226,.18),transparent 30%),
+    radial-gradient(circle at 88% 8%,rgba(72,214,221,.18),transparent 30%),
+    radial-gradient(circle at 50% 100%,rgba(67,161,210,.10),transparent 36%),
+    linear-gradient(180deg,#F7FCFF 0%,#EFF8FC 55%,#F8FCFE 100%);
+  color:var(--ink);
+}
+body[data-theme="light"] .card,
+body[data-theme="light"] .stat,
+body[data-theme="light"] .year-card,
+body[data-theme="light"] .auth-card,
+body[data-theme="light"] .modal-box{
+  background:linear-gradient(180deg,rgba(255,255,255,.88),rgba(248,252,255,.78));
+  border-color:rgba(61,144,183,.20);
+  box-shadow:var(--shadow);
+}
+body[data-theme="light"] .bottom-nav{
+  background:rgba(248,252,255,.84);
+  border-top-color:rgba(61,144,183,.16);
+  box-shadow:0 -10px 30px rgba(32,86,115,.08);
+}
+body[data-theme="light"] .auth-screen{
+  background:
+    radial-gradient(circle at 16% 12%,rgba(72,205,226,.20),transparent 31%),
+    radial-gradient(circle at 88% 10%,rgba(77,195,221,.17),transparent 30%),
+    linear-gradient(160deg,#F7FCFF 0%,#EEF8FC 100%);
+}
+body[data-theme="light"] .auth-tab.active{
+  background:linear-gradient(135deg,#1686A8,#4BC8DD);
+  color:#fff;
+}
+body[data-theme="light"] .inp,
+body[data-theme="light"] .sel,
+body[data-theme="light"] .pay-inp,
+body[data-theme="light"] .field input,
+body[data-theme="light"] .form-grid input,
+body[data-theme="light"] .form-grid select,
+body[data-theme="light"] .auth-tabs,
+body[data-theme="light"] .btn-secondary,
+body[data-theme="light"] .ebadge,
+body[data-theme="light"] .card-title .tag,
+body[data-theme="light"] .dist-bar,
+body[data-theme="light"] .progress-bar{
+  background:rgba(239,248,252,.82);
+}
+body[data-theme="light"] select option{background:#F6FBFE;color:#102746}
+body[data-theme="light"] input::placeholder{color:#91A2B2}
+body[data-theme="light"] .chart-tooltip,
+body[data-theme="light"] .toast{background:#102746;color:#fff}
+body[data-theme="light"] .btn-logout{background:rgba(255,255,255,.68)}
+body[data-theme="light"] .acerto-box{
+  background:linear-gradient(135deg,#147D9D,#28AAC7 58%,#5FD4DF);
+  box-shadow:0 16px 36px rgba(40,170,199,.22);
+}
+body[data-theme="light"] .import-banner{background:rgba(255,247,224,.86)}
+
+#connectivity-canvas{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  z-index:-2;
+  pointer-events:none;
+  opacity:.72;
+}
+body[data-theme="light"] #connectivity-canvas{opacity:.55}
+.ambient-overlay{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 50% 35%,transparent 0 38%,rgba(2,8,18,.14) 100%);
+}
+body[data-theme="light"] .ambient-overlay{
+  background:
+    radial-gradient(circle at 50% 40%,transparent 0 42%,rgba(255,255,255,.24) 100%);
+}
+
+.theme-toggle{
+  width:42px;height:42px;border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+  border:1px solid var(--line);
+  background:var(--card);
+  color:var(--green);
+  box-shadow:var(--shadow);
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;
+  flex-shrink:0;
+}
+.theme-toggle:hover{
+  transform:translateY(-1px) rotate(6deg);
+  border-color:rgba(0,191,234,.42);
+  box-shadow:var(--shadow),0 0 20px rgba(0,191,234,.12);
+}
+.theme-toggle svg{width:19px;height:19px}
+.theme-toggle .icon-sun{display:none}
+body[data-theme="light"] .theme-toggle .icon-sun{display:block}
+body[data-theme="light"] .theme-toggle .icon-moon{display:none}
+
+.topbar-actions{display:flex;align-items:center;gap:8px}
+.auth-theme-wrap{position:fixed;top:calc(18px + var(--safe-t));right:18px;z-index:20}
+@media(max-width:520px){
+  .theme-toggle{width:38px;height:38px}
+  .btn-logout{padding:6px 10px}
+}
+
 </style>
 </head>
-<body>
+<body data-theme="dark">
+<canvas id="connectivity-canvas" aria-hidden="true"></canvas>
+<div class="ambient-overlay" aria-hidden="true"></div>
+
+
+<div class="auth-theme-wrap">
+  <button class="theme-toggle" type="button" onclick="toggleTheme()" aria-label="Alternar tema claro e escuro" title="Alternar tema">
+    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1111.2 3 7 7 0 0021 12.8z"/></svg>
+    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</div>
 
 <!-- ══════════════════════════════════════════════════
      AUTH SCREEN
@@ -308,7 +451,13 @@ select option{background:#071524;color:#F3F8FC}
         <div class="brand-house" id="house-name">—</div>
       </div>
     </div>
-    <button class="btn-logout" onclick="openSettings()">Configurações</button>
+    <div class="topbar-actions">
+      <button class="theme-toggle" type="button" onclick="toggleTheme()" aria-label="Alternar tema claro e escuro" title="Alternar tema">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1111.2 3 7 7 0 0021 12.8z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"/></svg>
+      </button>
+      <button class="btn-logout" onclick="openSettings()">Configurações</button>
+    </div>
   </div>
 
   <!-- ── PAGE: DASHBOARD ── -->
@@ -555,6 +704,141 @@ select option{background:#071524;color:#F3F8FC}
 </div>
 
 <div class="toast" id="toast"></div>
+
+
+<script>
+/* ── TEMA PERSISTENTE ─────────────────────────────────────────────── */
+(function initTheme(){
+  const saved = localStorage.getItem('casal-theme');
+  const preferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  document.body.dataset.theme = saved || preferred;
+  document.documentElement.style.colorScheme = document.body.dataset.theme;
+})();
+
+function toggleTheme(){
+  const next = document.body.dataset.theme === 'light' ? 'dark' : 'light';
+  document.body.dataset.theme = next;
+  document.documentElement.style.colorScheme = next;
+  localStorage.setItem('casal-theme', next);
+}
+
+/* ── FUNDO VIVO DE CONECTIVIDADE ─────────────────────────────────── */
+(function connectivityBackground(){
+  const canvas = document.getElementById('connectivity-canvas');
+  const ctx = canvas.getContext('2d', { alpha:true });
+  let width = 0, height = 0, dpr = 1, nodes = [];
+  let raf = null;
+  const pointer = { x:null, y:null, active:false };
+
+  function palette(){
+    const light = document.body.dataset.theme === 'light';
+    return light
+      ? { line:'rgba(32,151,190,', dot:'rgba(20,142,180,', glow:'rgba(76,203,222,' }
+      : { line:'rgba(0,191,234,', dot:'rgba(67,211,240,', glow:'rgba(0,153,204,' };
+  }
+
+  function resize(){
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = Math.floor(width * dpr);
+    canvas.height = Math.floor(height * dpr);
+    canvas.style.width = width + 'px';
+    canvas.style.height = height + 'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+
+    const count = Math.max(24, Math.min(70, Math.floor((width * height) / 26000)));
+    nodes = Array.from({length:count}, () => ({
+      x:Math.random()*width,
+      y:Math.random()*height,
+      vx:(Math.random()-.5)*.18,
+      vy:(Math.random()-.5)*.18,
+      r:Math.random()*1.5+.7,
+      pulse:Math.random()*Math.PI*2
+    }));
+  }
+
+  function draw(time){
+    const p = palette();
+    ctx.clearRect(0,0,width,height);
+
+    for(const n of nodes){
+      n.x += n.vx;
+      n.y += n.vy;
+      n.pulse += .018;
+      if(n.x < -20) n.x = width+20;
+      if(n.x > width+20) n.x = -20;
+      if(n.y < -20) n.y = height+20;
+      if(n.y > height+20) n.y = -20;
+    }
+
+    const maxDist = width < 640 ? 115 : 150;
+    for(let i=0;i<nodes.length;i++){
+      const a = nodes[i];
+      for(let j=i+1;j<nodes.length;j++){
+        const b = nodes[j];
+        const dx = a.x-b.x, dy = a.y-b.y;
+        const dist = Math.hypot(dx,dy);
+        if(dist < maxDist){
+          const alpha = (1-dist/maxDist)*.22;
+          ctx.beginPath();
+          ctx.moveTo(a.x,a.y);
+          ctx.lineTo(b.x,b.y);
+          ctx.strokeStyle = p.line + alpha + ')';
+          ctx.lineWidth = .7;
+          ctx.stroke();
+        }
+      }
+
+      if(pointer.active){
+        const dx = a.x-pointer.x, dy = a.y-pointer.y;
+        const dist = Math.hypot(dx,dy);
+        if(dist < 180){
+          ctx.beginPath();
+          ctx.moveTo(a.x,a.y);
+          ctx.lineTo(pointer.x,pointer.y);
+          ctx.strokeStyle = p.line + ((1-dist/180)*.28) + ')';
+          ctx.lineWidth = .8;
+          ctx.stroke();
+        }
+      }
+    }
+
+    for(const n of nodes){
+      const pulse = .55 + Math.sin(n.pulse)*.25;
+      const grad = ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,8);
+      grad.addColorStop(0,p.glow + (.18*pulse) + ')');
+      grad.addColorStop(1,p.glow + '0)');
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(n.x,n.y,8,0,Math.PI*2);
+      ctx.fill();
+
+      ctx.fillStyle = p.dot + (.55+.3*pulse) + ')';
+      ctx.beginPath();
+      ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
+      ctx.fill();
+    }
+
+    raf = requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', resize, {passive:true});
+  window.addEventListener('pointermove', e => {
+    pointer.x = e.clientX;
+    pointer.y = e.clientY;
+    pointer.active = true;
+  }, {passive:true});
+  window.addEventListener('pointerleave', () => pointer.active = false, {passive:true});
+  document.addEventListener('visibilitychange', () => {
+    if(document.hidden && raf){ cancelAnimationFrame(raf); raf = null; }
+    if(!document.hidden && !raf) raf = requestAnimationFrame(draw);
+  });
+
+  resize();
+  raf = requestAnimationFrame(draw);
+})();
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="config.js"></script>
