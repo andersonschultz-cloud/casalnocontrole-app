@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Casal no Controle">
@@ -221,6 +222,21 @@ a{color:var(--green);text-decoration:none}
 .empty-state{text-align:center;padding:30px 10px;color:var(--ink-3)}
 .empty-state svg{margin-bottom:10px;opacity:.5}
 .empty-state p{font-size:13px}
+
+
+/* ── DASHBOARD POLIDO ── */
+#p-dashboard .stat-grid{align-items:stretch}
+#p-dashboard .stat{position:relative;overflow:hidden;background:linear-gradient(145deg,rgba(11,31,50,.92),rgba(6,20,34,.84));border-color:rgba(0,191,234,.16)}
+#p-dashboard .stat::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 85% 0%,rgba(0,191,234,.16),transparent 36%);pointer-events:none}
+#p-dashboard .card{background:linear-gradient(160deg,rgba(11,31,50,.94),rgba(6,20,34,.88));border-color:rgba(0,191,234,.14)}
+body[data-theme="light"] #p-dashboard .stat,
+body[data-theme="light"] #p-dashboard .card{background:linear-gradient(145deg,rgba(255,255,255,.94),rgba(232,248,253,.88));border-color:rgba(32,151,190,.18);box-shadow:0 12px 30px rgba(32,151,190,.10),inset 0 1px 0 rgba(255,255,255,.82)}
+body[data-theme="light"] #p-dashboard .stat::before,
+body[data-theme="light"] #p-dashboard .card::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 90% 0%,rgba(32,151,190,.16),transparent 38%);pointer-events:none}
+body[data-theme="light"] .chart-wrap{background:linear-gradient(180deg,rgba(255,255,255,.54),rgba(232,248,253,.46));border:1px solid rgba(32,151,190,.12);border-radius:16px;padding:10px}
+body[data-theme="burn"] #p-dashboard .stat,
+body[data-theme="burn"] #p-dashboard .card{background:linear-gradient(145deg,rgba(43,5,2,.94),rgba(23,3,0,.88));border-color:rgba(255,122,24,.24);box-shadow:0 12px 32px rgba(255,59,31,.13),inset 0 1px 0 rgba(255,209,102,.08)}
+body[data-theme="burn"] #p-dashboard .stat::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 85% 0%,rgba(255,122,24,.20),transparent 36%);pointer-events:none}
 
 /* ── TOAST ── */
 .toast{position:fixed;bottom:calc(76px + var(--safe-b));left:50%;transform:translateX(-50%) translateY(60px);background:var(--ink);color:#fff;border-radius:10px;padding:10px 18px;font-size:12.5px;font-weight:600;transition:transform .25s ease;z-index:300;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.25)}
@@ -498,16 +514,17 @@ button,input,select{max-width:100%}
 .app.active{display:block!important}
 body.is-authenticated #auth-screen{display:none!important}
 body:not(.is-authenticated) #app{display:none!important}
-#nav-cronicas{justify-content:center;gap:0;overflow:hidden}
-#nav-cronicas svg,
-#nav-cronicas::before,
+#nav-cronicas{appearance:none;-webkit-appearance:none;background:transparent!important;border:0!important;box-shadow:none!important;overflow:hidden}
 #nav-cronicas::after{display:none!important;content:none!important}
-#nav-cronicas > :not(span){display:none!important}
+#nav-cronicas svg{display:block!important}
 #nav-cronicas span{display:block!important;line-height:1.2;position:relative;z-index:1}
 .bottom-nav .theme-toggle,
 .bottom-nav .auth-theme-wrap,
 .bottom-nav input[type="checkbox"],
-.bottom-nav [role="switch"]{display:none!important}
+.bottom-nav [role="switch"],
+.bottom-nav .switch,
+.bottom-nav .toggle,
+.bottom-nav .theme-switch{display:none!important}
 
 @media(max-width:767px){
   body{font-size:14px}
@@ -905,7 +922,8 @@ body:not(.is-authenticated) #app{display:none!important}
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
     <span>Lançamentos</span>
   </button>
-  <button class="nav-btn nav-text-only" id="nav-cronicas" onclick="navTo('cronicas')" aria-label="Crônicas">
+  <button class="nav-btn" id="nav-cronicas" onclick="navTo('cronicas')" aria-label="Crônicas">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
     <span>Crônicas</span>
   </button>
   <button class="nav-btn" id="nav-investimentos" onclick="navTo('investimentos')">

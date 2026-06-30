@@ -1,7 +1,7 @@
 // Service Worker — cacheia apenas a casca estática do app (HTML/CSS/JS/ícones).
 // Os dados financeiros vêm sempre do Supabase pela rede, nunca do cache,
 // para garantir que o casal sempre veja a informação mais atual.
-const CACHE = 'patrimonio-v7-cronicas-fix';
+const CACHE = 'patrimonio-v8-cronicas-dashboard-fix';
 const SHELL = ['./', './index.html', './config.js', './manifest.json', './icon.svg', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {
