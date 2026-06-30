@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Casal no Controle">
 <meta name="theme-color" content="#040B16" id="meta-theme-color">
@@ -514,10 +513,14 @@ button,input,select{max-width:100%}
 .app.active{display:block!important}
 body.is-authenticated #auth-screen{display:none!important}
 body:not(.is-authenticated) #app{display:none!important}
-#nav-cronicas{appearance:none;-webkit-appearance:none;background:transparent!important;border:0!important;box-shadow:none!important;overflow:hidden}
-#nav-cronicas::after{display:none!important;content:none!important}
-#nav-cronicas svg{display:block!important}
-#nav-cronicas span{display:block!important;line-height:1.2;position:relative;z-index:1}
+#nav-cronicas{appearance:none;-webkit-appearance:none;background:transparent!important;border:0!important;box-shadow:none!important;overflow:hidden!important}
+#nav-cronicas::before,
+#nav-cronicas::after{display:none!important;content:none!important;background:none!important;box-shadow:none!important}
+#nav-cronicas svg{display:none!important}
+#nav-cronicas span{display:block!important;line-height:1.2;position:relative;z-index:1;margin-top:18px}
+#nav-cronicas.nav-btn.active{background:transparent!important;border:0!important;box-shadow:none!important}
+#nav-cronicas.nav-btn.active::before{display:none!important;content:none!important}
+.bottom-nav::before,.bottom-nav::after{display:none!important;content:none!important}
 .bottom-nav .theme-toggle,
 .bottom-nav .auth-theme-wrap,
 .bottom-nav input[type="checkbox"],
@@ -982,6 +985,10 @@ function toggleTheme(){
   const next = order[(order.indexOf(current) + 1) % order.length] || 'dark';
   applyTheme(next);
   localStorage.setItem('casal-theme', next);
+  try {
+    buildDashboard();
+    if (document.getElementById('p-cronicas')?.classList.contains('active')) buildCronicas();
+  } catch(e) {}
 }
 
 /* ── FUNDO VIVO DE CONECTIVIDADE ─────────────────────────────────── */
@@ -1105,7 +1112,7 @@ function toggleTheme(){
 })();
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="config.js"></script>
 <script>
 // ════════════════════════════════════════════════════════════════════════
@@ -1625,6 +1632,25 @@ function buildMonthlyView(hist) {
   buildMonthlyTable(hist);
 }
 
+function chartPanelFill(){
+  const theme = document.body.dataset.theme || 'dark';
+  if (theme === 'light') return '#EAF6FB';
+  if (theme === 'burn') return '#260803';
+  return '#061A2B';
+}
+function chartGridColor(){
+  const theme = document.body.dataset.theme || 'dark';
+  if (theme === 'light') return '#CFE6EF';
+  if (theme === 'burn') return '#5A1A0B';
+  return '#17344A';
+}
+function chartTextColor(){
+  const theme = document.body.dataset.theme || 'dark';
+  if (theme === 'light') return '#436073';
+  if (theme === 'burn') return '#F5B184';
+  return '#8FA6B8';
+}
+
 function drawMonthlyChart(hist) {
   const svg = $('monthly-chart'); const legend = $('monthly-legend');
   svg.innerHTML=''; legend.innerHTML='';
@@ -1638,13 +1664,13 @@ function drawMonthlyChart(hist) {
   const xOf = i => PAD.l + i*(cW/11);
   const yOf = v => PAD.t + cH - (v/maxV)*cH;
 
-  let html = `<rect x="${PAD.l}" y="${PAD.t}" width="${cW}" height="${cH}" fill="#F5F8F7" rx="6"/>`;
+  let html = `<rect x="${PAD.l}" y="${PAD.t}" width="${cW}" height="${cH}" fill="${chartPanelFill()}" rx="6"/>`;
   for (let g=0; g<=5; g++) {
     const v = maxV*g/5; const y = yOf(v);
-    html += `<line x1="${PAD.l}" y1="${y}" x2="${PAD.l+cW}" y2="${y}" stroke="#E7ECEA" stroke-width="1"/>`;
-    html += `<text x="${PAD.l-6}" y="${y+4}" text-anchor="end" font-family="JetBrains Mono,monospace" font-size="9" fill="#8C97A1">${v>=1000?(v/1000).toFixed(0)+'k':v}</text>`;
+    html += `<line x1="${PAD.l}" y1="${y}" x2="${PAD.l+cW}" y2="${y}" stroke="${chartGridColor()}" stroke-width="1"/>`;
+    html += `<text x="${PAD.l-6}" y="${y+4}" text-anchor="end" font-family="JetBrains Mono,monospace" font-size="9" fill="${chartTextColor()}">${v>=1000?(v/1000).toFixed(0)+'k':v}</text>`;
   }
-  MONTHS_LBL.forEach((m,i) => { html += `<text x="${xOf(i)}" y="${PAD.t+cH+16}" text-anchor="middle" font-family="Inter,sans-serif" font-weight="600" font-size="9" fill="#8C97A1">${m}</text>`; });
+  MONTHS_LBL.forEach((m,i) => { html += `<text x="${xOf(i)}" y="${PAD.t+cH+16}" text-anchor="middle" font-family="Inter,sans-serif" font-weight="600" font-size="9" fill="${chartTextColor()}">${m}</text>`; });
 
   years.forEach((yr,idx) => {
     const col = YEAR_PALETTE[idx % YEAR_PALETTE.length];
@@ -1723,11 +1749,11 @@ function drawAnnualChart(hist) {
   const cW=W-PAD.l-PAD.r, cH=H-PAD.t-PAD.b;
   const n = years.length, gap = cW/n, bW = Math.min(72, gap*0.62);
 
-  let html = `<rect x="${PAD.l}" y="${PAD.t}" width="${cW}" height="${cH}" fill="#F5F8F7" rx="6"/>`;
+  let html = `<rect x="${PAD.l}" y="${PAD.t}" width="${cW}" height="${cH}" fill="${chartPanelFill()}" rx="6"/>`;
   [0,.25,.5,.75,1].forEach(f => {
     const v=maxT*f, y=PAD.t+cH-f*cH;
-    html += `<line x1="${PAD.l}" y1="${y}" x2="${PAD.l+cW}" y2="${y}" stroke="#E7ECEA" stroke-width="1"/>`;
-    if (f>0) html += `<text x="${PAD.l-6}" y="${y+4}" text-anchor="end" font-family="JetBrains Mono,monospace" font-size="9" fill="#8C97A1">${(v/1000).toFixed(0)}k</text>`;
+    html += `<line x1="${PAD.l}" y1="${y}" x2="${PAD.l+cW}" y2="${y}" stroke="${chartGridColor()}" stroke-width="1"/>`;
+    if (f>0) html += `<text x="${PAD.l-6}" y="${y+4}" text-anchor="end" font-family="JetBrains Mono,monospace" font-size="9" fill="${chartTextColor()}">${(v/1000).toFixed(0)}k</text>`;
   });
 
   years.forEach((yr,i) => {
@@ -1959,9 +1985,9 @@ function drawDashChart(hist) {
   const xOf = i => PAD.l + i*(cW/(last6.length-1||1));
   const yOf = v => PAD.t + cH - (v/maxV)*cH;
 
-  let html = `<rect x="${PAD.l}" y="${PAD.t}" width="${cW}" height="${cH}" fill="#F5F8F7" rx="6"/>`;
-  [0,.5,1].forEach(f => { const y=PAD.t+cH-f*cH; html += `<line x1="${PAD.l}" y1="${y}" x2="${PAD.l+cW}" y2="${y}" stroke="#E7ECEA"/>`; html += `<text x="${PAD.l-6}" y="${y+4}" text-anchor="end" font-family="JetBrains Mono,monospace" font-size="9" fill="#8C97A1">${(maxV*f/1000).toFixed(0)}k</text>`; });
-  last6.forEach((d,i) => html += `<text x="${xOf(i)}" y="${PAD.t+cH+16}" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="600" fill="#8C97A1">${d.label}</text>`);
+  let html = `<rect x="${PAD.l}" y="${PAD.t}" width="${cW}" height="${cH}" fill="${chartPanelFill()}" rx="6"/>`;
+  [0,.5,1].forEach(f => { const y=PAD.t+cH-f*cH; html += `<line x1="${PAD.l}" y1="${y}" x2="${PAD.l+cW}" y2="${y}" stroke="${chartGridColor()}"/>`; html += `<text x="${PAD.l-6}" y="${y+4}" text-anchor="end" font-family="JetBrains Mono,monospace" font-size="9" fill="${chartTextColor()}">${(maxV*f/1000).toFixed(0)}k</text>`; });
+  last6.forEach((d,i) => html += `<text x="${xOf(i)}" y="${PAD.t+cH+16}" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="600" fill="${chartTextColor()}">${d.label}</text>`);
 
   let path = '';
   last6.forEach((d,i) => { const x=xOf(i), y=yOf(d.v); path += (i===0?'M':'L') + x + ',' + y + ' '; });
