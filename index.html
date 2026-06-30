@@ -498,8 +498,16 @@ button,input,select{max-width:100%}
 .app.active{display:block!important}
 body.is-authenticated #auth-screen{display:none!important}
 body:not(.is-authenticated) #app{display:none!important}
-#nav-cronicas svg{display:none}
-#nav-cronicas{justify-content:center;gap:0}
+#nav-cronicas{justify-content:center;gap:0;overflow:hidden}
+#nav-cronicas svg,
+#nav-cronicas::before,
+#nav-cronicas::after{display:none!important;content:none!important}
+#nav-cronicas > :not(span){display:none!important}
+#nav-cronicas span{display:block!important;line-height:1.2;position:relative;z-index:1}
+.bottom-nav .theme-toggle,
+.bottom-nav .auth-theme-wrap,
+.bottom-nav input[type="checkbox"],
+.bottom-nav [role="switch"]{display:none!important}
 
 @media(max-width:767px){
   body{font-size:14px}
@@ -897,8 +905,7 @@ body:not(.is-authenticated) #app{display:none!important}
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
     <span>Lançamentos</span>
   </button>
-  <button class="nav-btn" id="nav-cronicas" onclick="navTo('cronicas')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg>
+  <button class="nav-btn nav-text-only" id="nav-cronicas" onclick="navTo('cronicas')" aria-label="Crônicas">
     <span>Crônicas</span>
   </button>
   <button class="nav-btn" id="nav-investimentos" onclick="navTo('investimentos')">
