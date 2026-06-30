@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Casal no Controle">
-<meta name="theme-color" content="#040B16">
+<meta name="theme-color" content="#040B16" id="meta-theme-color">
 <meta name="color-scheme" content="light dark">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
@@ -356,6 +356,93 @@ body[data-theme="light"] .ambient-overlay{
     radial-gradient(circle at 50% 40%,transparent 0 42%,rgba(255,255,255,.24) 100%);
 }
 
+
+body[data-theme="burn"]{
+  --green:#FF3B1F;
+  --green-d:#D71900;
+  --green-l:rgba(255,59,31,.18);
+  --blue:#FF7A18;
+  --blue-l:rgba(255,122,24,.18);
+  --gold:#FFD166;
+  --gold-l:rgba(255,209,102,.18);
+  --ink:#FFF7F0;
+  --ink-2:#FFD7C2;
+  --ink-3:#D99B82;
+  --ink-4:#7A3A2C;
+  --bg:#130200;
+  --card:rgba(39,6,2,.86);
+  --line:rgba(255,93,35,.26);
+  --red:#FF2A00;
+  --red-l:rgba(255,42,0,.18);
+  --shadow:0 14px 36px rgba(0,0,0,.38),0 0 0 1px rgba(255,93,35,.05);
+  --glow:0 0 30px rgba(255,76,24,.28);
+  background:
+    radial-gradient(circle at 12% 8%,rgba(255,42,0,.20),transparent 28%),
+    radial-gradient(circle at 86% 10%,rgba(255,122,24,.18),transparent 32%),
+    radial-gradient(circle at 50% 100%,rgba(255,209,102,.10),transparent 38%),
+    linear-gradient(180deg,#170300 0%,#2A0600 52%,#090100 100%);
+  color-scheme:dark;
+}
+body[data-theme="burn"] .card,
+body[data-theme="burn"] .stat,
+body[data-theme="burn"] .year-card,
+body[data-theme="burn"] .auth-card,
+body[data-theme="burn"] .modal-box{
+  background:linear-gradient(180deg,rgba(55,10,4,.90),rgba(24,3,1,.88));
+  border-color:rgba(255,93,35,.28);
+  box-shadow:0 16px 40px rgba(0,0,0,.38),0 0 26px rgba(255,42,0,.08);
+}
+body[data-theme="burn"] .bottom-nav{
+  background:rgba(19,2,0,.90);
+  border-top-color:rgba(255,93,35,.30);
+  box-shadow:0 -10px 30px rgba(255,42,0,.10);
+}
+body[data-theme="burn"] .auth-screen{
+  background:
+    radial-gradient(circle at 20% 15%,rgba(255,42,0,.20),transparent 34%),
+    radial-gradient(circle at 80% 0%,rgba(255,122,24,.16),transparent 32%),
+    linear-gradient(180deg,#170300 0%,#2A0600 52%,#090100 100%);
+}
+body[data-theme="burn"] .auth-tab.active{
+  background:linear-gradient(135deg,rgba(215,25,0,.22),rgba(255,122,24,.22));
+  color:#FFF7F0;
+}
+body[data-theme="burn"] .inp,
+body[data-theme="burn"] .sel,
+body[data-theme="burn"] .pay-inp,
+body[data-theme="burn"] .field input,
+body[data-theme="burn"] .form-grid input,
+body[data-theme="burn"] .form-grid select,
+body[data-theme="burn"] .auth-tabs,
+body[data-theme="burn"] .btn-secondary,
+body[data-theme="burn"] .ebadge,
+body[data-theme="burn"] .card-title .tag,
+body[data-theme="burn"] .dist-bar,
+body[data-theme="burn"] .progress-bar{
+  background:rgba(19,2,0,.82);
+  border-color:rgba(255,93,35,.24);
+}
+body[data-theme="burn"] select option{background:#170300;color:#FFF7F0}
+body[data-theme="burn"] .btn-save,
+body[data-theme="burn"] .btn-primary{
+  background:linear-gradient(135deg,#D71900,#FF3B1F 48%,#FF7A18);
+  box-shadow:0 10px 30px rgba(255,59,31,.32),0 0 20px rgba(255,122,24,.12);
+}
+body[data-theme="burn"] .acerto-box{
+  background:linear-gradient(135deg,#4A0900,#D71900 52%,#FF7A18);
+  box-shadow:0 14px 36px rgba(255,59,31,.28),inset 0 1px 0 rgba(255,255,255,.10);
+}
+body[data-theme="burn"] .ambient-overlay{
+  opacity:.95;
+  background:
+    radial-gradient(ellipse at 20% 100%,rgba(255,42,0,.18),transparent 45%),
+    radial-gradient(ellipse at 80% 90%,rgba(255,122,24,.14),transparent 42%),
+    linear-gradient(180deg,transparent 0%,rgba(255,42,0,.06) 100%);
+  animation:burnPulse 4.5s ease-in-out infinite alternate;
+}
+body[data-theme="burn"] #connectivity-canvas{opacity:.72;mix-blend-mode:screen}
+@keyframes burnPulse{from{filter:saturate(1) brightness(.95)}to{filter:saturate(1.3) brightness(1.15)}}
+
 .theme-toggle{
   width:42px;height:42px;border-radius:50%;
   display:inline-flex;align-items:center;justify-content:center;
@@ -371,10 +458,11 @@ body[data-theme="light"] .ambient-overlay{
   border-color:rgba(0,191,234,.42);
   box-shadow:var(--shadow),0 0 20px rgba(0,191,234,.12);
 }
-.theme-toggle svg{width:19px;height:19px}
-.theme-toggle .icon-sun{display:none}
-body[data-theme="light"] .theme-toggle .icon-sun{display:block}
-body[data-theme="light"] .theme-toggle .icon-moon{display:none}
+.theme-toggle svg{width:19px;height:19px;display:none!important;flex-shrink:0}
+body[data-theme="dark"] .theme-toggle .icon-moon{display:block!important}
+body[data-theme="light"] .theme-toggle .icon-sun{display:block!important}
+body[data-theme="burn"] .theme-toggle .icon-flame{display:block!important}
+body[data-theme="burn"] .theme-toggle{color:#FF7A18;border-color:rgba(255,122,24,.34);box-shadow:0 0 18px rgba(255,59,31,.18)}
 
 .topbar-actions{display:flex;align-items:center;gap:8px}
 .auth-theme-wrap{position:fixed;top:calc(18px + var(--safe-t));right:18px;z-index:20}
@@ -408,6 +496,10 @@ button,input,select{max-width:100%}
 }
 .app:not(.active){display:none!important}
 .app.active{display:block!important}
+body.is-authenticated #auth-screen{display:none!important}
+body:not(.is-authenticated) #app{display:none!important}
+#nav-cronicas svg{display:none}
+#nav-cronicas{justify-content:center;gap:0}
 
 @media(max-width:767px){
   body{font-size:14px}
@@ -529,9 +621,10 @@ button,input,select{max-width:100%}
 ══════════════════════════════════════════════════ -->
 <div id="auth-screen" class="auth-screen">
   <div class="auth-theme-wrap">
-    <button class="theme-toggle" type="button" onclick="toggleTheme()" aria-label="Alternar tema claro e escuro" title="Alternar tema">
+    <button class="theme-toggle" type="button" onclick="toggleTheme()" aria-label="Alternar tema: claro, escuro ou burn" title="Alternar tema">
       <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1111.2 3 7 7 0 0021 12.8z"/></svg>
       <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"/></svg>
+      <svg class="icon-flame" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A4.5 4.5 0 0013 19a5 5 0 005-5c0-3.5-2.2-5.4-4.1-7.2-.7 2.2-2.1 3.3-3.5 4.4-.8.7-1.6 1.7-1.9 3.3z"/><path d="M12.2 19c-1.3-.7-2.2-1.8-2.2-3.2 0-1.3.7-2.1 1.5-2.9.7-.7 1.5-1.5 1.8-2.9 1.1 1.3 2.7 2.8 2.7 5A4 4 0 0112.2 19z"/></svg>
     </button>
   </div>
   <div class="auth-box">
@@ -585,9 +678,10 @@ button,input,select{max-width:100%}
       </div>
     </div>
     <div class="topbar-actions">
-      <button class="theme-toggle" type="button" onclick="toggleTheme()" aria-label="Alternar tema claro e escuro" title="Alternar tema">
+      <button class="theme-toggle" type="button" onclick="toggleTheme()" aria-label="Alternar tema: claro, escuro ou burn" title="Alternar tema">
         <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1111.2 3 7 7 0 0021 12.8z"/></svg>
         <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"/></svg>
+      <svg class="icon-flame" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A4.5 4.5 0 0013 19a5 5 0 005-5c0-3.5-2.2-5.4-4.1-7.2-.7 2.2-2.1 3.3-3.5 4.4-.8.7-1.6 1.7-1.9 3.3z"/><path d="M12.2 19c-1.3-.7-2.2-1.8-2.2-3.2 0-1.3.7-2.1 1.5-2.9.7-.7 1.5-1.5 1.8-2.9 1.1 1.3 2.7 2.8 2.7 5A4 4 0 0112.2 19z"/></svg>
       </button>
       <button class="btn-logout" onclick="openSettings()">Configurações</button>
     </div>
@@ -841,17 +935,27 @@ button,input,select{max-width:100%}
 
 <script>
 /* ── TEMA PERSISTENTE ─────────────────────────────────────────────── */
+function applyTheme(theme){
+  const allowedThemes = ['dark', 'light', 'burn'];
+  const safeTheme = allowedThemes.includes(theme) ? theme : 'dark';
+  document.body.dataset.theme = safeTheme;
+  document.documentElement.style.colorScheme = safeTheme === 'light' ? 'light' : 'dark';
+  const metaTheme = document.getElementById('meta-theme-color');
+  const colors = { light:'#F4FAFD', dark:'#040B16', burn:'#170300' };
+  if (metaTheme) metaTheme.setAttribute('content', colors[safeTheme]);
+}
+
 (function initTheme(){
   const saved = localStorage.getItem('casal-theme');
   const preferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-  document.body.dataset.theme = saved || preferred;
-  document.documentElement.style.colorScheme = document.body.dataset.theme;
+  applyTheme(saved || preferred);
 })();
 
 function toggleTheme(){
-  const next = document.body.dataset.theme === 'light' ? 'dark' : 'light';
-  document.body.dataset.theme = next;
-  document.documentElement.style.colorScheme = next;
+  const order = ['dark', 'light', 'burn'];
+  const current = document.body.dataset.theme || 'dark';
+  const next = order[(order.indexOf(current) + 1) % order.length] || 'dark';
+  applyTheme(next);
   localStorage.setItem('casal-theme', next);
 }
 
@@ -864,10 +968,10 @@ function toggleTheme(){
   const pointer = { x:null, y:null, active:false };
 
   function palette(){
-    const light = document.body.dataset.theme === 'light';
-    return light
-      ? { line:'rgba(32,151,190,', dot:'rgba(20,142,180,', glow:'rgba(76,203,222,' }
-      : { line:'rgba(0,191,234,', dot:'rgba(67,211,240,', glow:'rgba(0,153,204,' };
+    const theme = document.body.dataset.theme;
+    if (theme === 'light') return { line:'rgba(32,151,190,', dot:'rgba(20,142,180,', glow:'rgba(76,203,222,' };
+    if (theme === 'burn') return { line:'rgba(255,93,35,', dot:'rgba(255,122,24,', glow:'rgba(255,209,102,' };
+    return { line:'rgba(0,191,234,', dot:'rgba(67,211,240,', glow:'rgba(0,153,204,' };
   }
 
   function resize(){
@@ -1113,6 +1217,7 @@ async function doLogout() {
   if (supa) await supa.auth.signOut();
   session = null; household = null; usuarios = []; titular = null; parceiro = null;
   closeSettings();
+  document.body.classList.remove('is-authenticated');
   $('app').classList.remove('active');
   $('auth-screen').style.display = 'flex';
 }
@@ -1128,6 +1233,7 @@ async function checkExistingSession() {
 }
 
 async function afterLogin() {
+  document.body.classList.add('is-authenticated');
   $('auth-screen').style.display = 'none';
   $('app').classList.add('active');
   await loadHousehold();
