@@ -513,13 +513,14 @@ button,input,select{max-width:100%}
 .app.active{display:block!important}
 body.is-authenticated #auth-screen{display:none!important}
 body:not(.is-authenticated) #app{display:none!important}
-#nav-cronicas{appearance:none;-webkit-appearance:none;background:transparent!important;border:0!important;box-shadow:none!important;overflow:hidden!important}
+#nav-cronicas{appearance:none;-webkit-appearance:none;background:transparent!important;border:0!important;box-shadow:none!important;overflow:hidden:visible!important}
 #nav-cronicas::before,
 #nav-cronicas::after{display:none!important;content:none!important;background:none!important;box-shadow:none!important}
-#nav-cronicas svg{display:none!important}
-#nav-cronicas span{display:block!important;line-height:1.2;position:relative;z-index:1;margin-top:18px}
+#nav-cronicas svg{display:block!important;width:21px!important;height:21px!important;position:relative;z-index:1;pointer-events:none}
+#nav-cronicas span{display:block!important;line-height:1.2;position:relative;z-index:1;margin-top:0}
 #nav-cronicas.nav-btn.active{background:transparent!important;border:0!important;box-shadow:none!important}
 #nav-cronicas.nav-btn.active::before{display:none!important;content:none!important}
+.atbl .max-month-cost{color:#FFCD00!important;font-weight:800;text-shadow:0 0 10px rgba(255,205,0,.25)}
 .bottom-nav::before,.bottom-nav::after{display:none!important;content:none!important}
 .bottom-nav .theme-toggle,
 .bottom-nav .auth-theme-wrap,
@@ -938,7 +939,7 @@ body:not(.is-authenticated) #app{display:none!important}
     <span>Lançamentos</span>
   </button>
   <button class="nav-btn" id="nav-cronicas" onclick="navTo('cronicas')" aria-label="Crônicas">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-7h6v7"/><path d="M9 10h6"/></svg>
     <span>Crônicas</span>
   </button>
   <button class="nav-btn" id="nav-investimentos" onclick="navTo('investimentos')">
@@ -1757,7 +1758,16 @@ function buildMonthlyTable(hist) {
   const lastYr = years[years.length-1];
   MONTHS_LBL.forEach((lbl,mi) => {
     html += `<tr><td>${lbl}</td>`;
-    years.forEach(yr => { const v = (hist[yr]||[])[mi]; const cls = Number(yr)===today.getFullYear()?' class="cur-yr"':''; html += `<td${cls}>${v!==null&&v!==undefined?fmtR(v):'<span class="var-na">—</span>'}</td>`; });
+    const monthValues = years.map(yr => ({ yr, value: (hist[yr]||[])[mi] })).filter(item => typeof item.value === 'number' && isFinite(item.value));
+    const maxMonthValue = monthValues.length ? Math.max(...monthValues.map(item => item.value)) : null;
+    years.forEach(yr => {
+      const v = (hist[yr]||[])[mi];
+      const classes = [];
+      if (Number(yr)===today.getFullYear()) classes.push('cur-yr');
+      if (maxMonthValue !== null && typeof v === 'number' && isFinite(v) && v === maxMonthValue) classes.push('max-month-cost');
+      const cls = classes.length ? ` class="${classes.join(' ')}"` : '';
+      html += `<td${cls}>${v!==null&&v!==undefined?fmtR(v):'<span class="var-na">—</span>'}</td>`;
+    });
     const curV = (hist[lastYr]||[])[mi], prevV = mi>0 ? (hist[lastYr]||[])[mi-1] : null;
     html += `<td>${fmtVarCell(varPct(curV, prevV))}</td></tr>`;
   });
