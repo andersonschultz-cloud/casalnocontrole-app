@@ -1,8 +1,8 @@
 // Service Worker — cacheia apenas a casca estática do app (HTML/CSS/JS/ícones).
 // Os dados financeiros vêm sempre do Supabase pela rede, nunca do cache,
 // para garantir que o casal sempre veja a informação mais atual.
-const CACHE = 'patrimonio-v9-cronicas-dashboard-final';
-const SHELL = ['./', './index.html', './config.js', './manifest.json', './icon.svg', './icon-192.png', './icon-512.png'];
+const CACHE = 'patrimonio-v10-burn-logo-toast-fix';
+const SHELL = ['./', './index.html', './config.js', './manifest.json', './icon.svg', './icon-192.png', './icon-512.png', './logoburn.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));

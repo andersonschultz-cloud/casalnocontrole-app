@@ -238,8 +238,8 @@ body[data-theme="burn"] #p-dashboard .card{background:linear-gradient(145deg,rgb
 body[data-theme="burn"] #p-dashboard .stat::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 85% 0%,rgba(255,122,24,.20),transparent 36%);pointer-events:none}
 
 /* ── TOAST ── */
-.toast{position:fixed;bottom:calc(76px + var(--safe-b));left:50%;transform:translateX(-50%) translateY(60px);background:var(--ink);color:#fff;border-radius:10px;padding:10px 18px;font-size:12.5px;font-weight:600;transition:transform .25s ease;z-index:300;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.25)}
-.toast.show{transform:translateX(-50%) translateY(0)}
+.toast{position:fixed;bottom:calc(76px + var(--safe-b));left:50%;transform:translateX(-50%) translateY(60px);background:var(--ink);color:#fff;border-radius:10px;padding:10px 18px;font-size:12.5px;font-weight:600;transition:transform .25s ease,opacity .2s ease,visibility .2s ease;z-index:300;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.25);opacity:0;visibility:hidden;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;visibility:visible}
 .toast.error{background:var(--red)}
 
 /* ── SETTINGS MODAL ── */
@@ -529,6 +529,18 @@ body:not(.is-authenticated) #app{display:none!important}
 .bottom-nav .toggle,
 .bottom-nav .theme-switch{display:none!important}
 
+/* Correção definitiva: remove qualquer "pill"/toggle fantasma sobre Crônicas e libera o clique */
+#toast:not(.show){opacity:0!important;visibility:hidden!important;pointer-events:none!important;transform:translateX(-50%) translateY(80px)!important}
+.bottom-nav .toast,
+.bottom-nav .theme-toggle,
+.bottom-nav .auth-theme-wrap,
+.bottom-nav input[type="checkbox"],
+.bottom-nav [role="switch"],
+.bottom-nav .switch,
+.bottom-nav .toggle,
+.bottom-nav .theme-switch{display:none!important;pointer-events:none!important}
+#nav-cronicas{pointer-events:auto!important;z-index:2}
+
 @media(max-width:767px){
   body{font-size:14px}
   .shell{padding-left:12px;padding-right:12px;padding-bottom:calc(78px + var(--safe-b))}
@@ -657,7 +669,7 @@ body:not(.is-authenticated) #app{display:none!important}
   </div>
   <div class="auth-box">
     <div class="auth-logo">
-      <img src="icon-512.png" alt="Casal no Controle">
+      <img id="auth-logo-img" class="app-logo-img" src="icon-512.png" alt="Casal no Controle">
       <div class="auth-title">Casal no Controle</div>
       <div class="auth-sub">Construindo liberdade financeira juntos</div>
     </div>
@@ -699,7 +711,7 @@ body:not(.is-authenticated) #app{display:none!important}
 
   <div class="topbar">
     <div class="brand">
-      <img src="icon-192.png" alt="">
+      <img id="brand-logo-img" class="app-logo-img" src="icon-192.png" alt="">
       <div class="brand-text">
         <div class="brand-name">Casal no Controle</div>
         <div class="brand-house" id="house-name">—</div>
@@ -971,6 +983,24 @@ function applyTheme(theme){
   const metaTheme = document.getElementById('meta-theme-color');
   const colors = { light:'#F4FAFD', dark:'#040B16', burn:'#170300' };
   if (metaTheme) metaTheme.setAttribute('content', colors[safeTheme]);
+
+  // No modo Burn, troca a identidade visual para o logo vermelho/chamas.
+  const authLogo = document.getElementById('auth-logo-img');
+  const brandLogo = document.getElementById('brand-logo-img');
+  const favicon = document.querySelector('link[rel="icon"]');
+  const appleIcon = document.querySelector('link[rel="apple-touch-icon"]');
+  const burnLogo = 'logoburn.png';
+  if (safeTheme === 'burn') {
+    if (authLogo) authLogo.src = burnLogo;
+    if (brandLogo) brandLogo.src = burnLogo;
+    if (favicon) { favicon.href = burnLogo; favicon.type = 'image/png'; }
+    if (appleIcon) appleIcon.href = burnLogo;
+  } else {
+    if (authLogo) authLogo.src = 'icon-512.png';
+    if (brandLogo) brandLogo.src = 'icon-192.png';
+    if (favicon) { favicon.href = 'icon.svg'; favicon.type = 'image/svg+xml'; }
+    if (appleIcon) appleIcon.href = 'icon-192.png';
+  }
 }
 
 (function initTheme(){
@@ -1634,9 +1664,9 @@ function buildMonthlyView(hist) {
 
 function chartPanelFill(){
   const theme = document.body.dataset.theme || 'dark';
-  if (theme === 'light') return '#EAF6FB';
+  if (theme === 'light') return '#DFF3FA';
   if (theme === 'burn') return '#260803';
-  return '#061A2B';
+  return '#071C2E';
 }
 function chartGridColor(){
   const theme = document.body.dataset.theme || 'dark';
