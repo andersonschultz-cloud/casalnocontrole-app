@@ -1,72 +1,63 @@
--- ════════════════════════════════════════════════════════════════
--- CASAL NO CONTROLE — VALIDAÇÃO DO SCHEMA
--- ════════════════════════════════════════════════════════════════
--- Cole cada bloco (ou tudo de uma vez) no SQL Editor do Supabase e
--- confira o resultado contra o "Esperado" de cada um.
--- ════════════════════════════════════════════════════════════════
+-- ============================================================================
+-- CASAL NO CONTROLE — VALIDAÇÃO APÓS A MIGRAÇÃO V2
+-- Execute no SQL Editor do Supabase. Somente consultas; nada é alterado.
+-- ============================================================================
 
--- 1) As 8 tabelas existem?
-select table_name
-from information_schema.tables
-where table_schema = 'public'
-order by table_name;
--- Esperado (8 linhas): despesas, historico_mensal, households,
--- investimentos, metas_financeiras, schultz_bank, sicredi_black, usuarios
+-- 1. Estruturas principais esperadas.
+select
+  to_regclass('public.households') as households,
+  to_regclass('public.usuarios') as usuarios,
+  to_regclass('public.despesas') as despesas,
+  to_regclass('public.schultz_bank') as schultz_bank,
+  to_regclass('public.sicredi_black') as sicredi_black,
+  to_regclass('public.historico_mensal') as historico_mensal,
+  to_regclass('public.patrimonio_conjunto') as patrimonio_conjunto,
+  to_regclass('public.meses_financeiros') as meses_financeiros;
 
--- 2) RLS está ativo em todas?
-select relname as tabela, relrowsecurity as rls_ativo
+-- 2. Funções da clonagem.
+select routine_name
+from information_schema.routines
+where routine_schema = 'public'
+  and routine_name in ('iniciar_mes_vazio','clonar_mes_anterior','current_household_id')
+order by routine_name;
+
+-- 3. RLS deve estar habilitada.
+select relname as tabela, relrowsecurity as rls_habilitada
 from pg_class
-where relnamespace = 'public'::regnamespace and relkind = 'r'
-order by relname;
--- Esperado: rls_ativo = true nas 8 linhas
+where oid in (
+  'public.patrimonio_conjunto'::regclass,
+  'public.meses_financeiros'::regclass
+);
 
--- 3) As 9 policies foram criadas?
-select tablename as tabela, policyname, cmd as operacao
+-- 4. Policies esperadas.
+select tablename, policyname, cmd
 from pg_policies
 where schemaname = 'public'
+  and tablename in ('patrimonio_conjunto','meses_financeiros')
 order by tablename, policyname;
--- Esperado (9 linhas):
---   households        -> households_select_own (SELECT), households_update_own (UPDATE)
---   usuarios           -> usuarios_all_own (ALL)
---   despesas           -> despesas_all_own (ALL)
---   schultz_bank       -> schultz_all_own (ALL)
---   sicredi_black      -> sicredi_all_own (ALL)
---   historico_mensal   -> historico_all_own (ALL)
---   investimentos      -> investimentos_all_own (ALL)
---   metas_financeiras  -> metas_all_own (ALL)
 
--- 4) A função helper current_household_id() existe?
-select proname as funcao, prosecdef as security_definer
-from pg_proc
-where proname = 'current_household_id';
--- Esperado: 1 linha, security_definer = true
+-- 5. Totais por casa sem expor detalhes financeiros individuais.
+select household_id, count(*) as itens_patrimoniais,
+       sum(valor_total_estimado) as patrimonio_total
+from public.patrimonio_conjunto
+group by household_id;
 
--- 5) A função/trigger que cria a "casa" no cadastro existe e está ativa?
-select tgname as gatilho, tgenabled as status
-from pg_trigger
-where tgname = 'on_auth_user_created';
--- Esperado: 1 linha, status = 'O' (Origin = ativo)
-
--- 6) As foreign keys de household_id estão todas apontando certo?
-select
-  tc.table_name as tabela,
-  kcu.column_name as coluna,
-  ccu.table_name as referencia
-from information_schema.table_constraints tc
-join information_schema.key_column_usage kcu
-  on tc.constraint_name = kcu.constraint_name and tc.table_schema = kcu.table_schema
-join information_schema.constraint_column_usage ccu
-  on tc.constraint_name = ccu.constraint_name and tc.table_schema = ccu.table_schema
-where tc.constraint_type = 'FOREIGN KEY' and tc.table_schema = 'public'
-order by tc.table_name;
--- Esperado: despesas, historico_mensal, investimentos, metas_financeiras,
--- schultz_bank, sicredi_black e usuarios todos referenciando "households";
--- households.auth_user_id referenciando auth.users (essa linha pode não
--- aparecer aqui porque auth.users fica fora do schema "public" — normal).
-
--- 7) Quantas casas e usuários existem até agora?
-select
-  (select count(*) from public.households) as total_casas,
-  (select count(*) from public.usuarios)   as total_usuarios;
--- Esperado, ANTES do primeiro cadastro bem-sucedido no app: 0 e 0.
--- Depois do primeiro "Criar conta" funcionar: 1 e 2 (titular + parceiro).
+-- 6. Verifica se investimentos legados foram migrados, caso a tabela ainda exista.
+do $$
+declare
+  faltantes integer;
+begin
+  if to_regclass('public.investimentos') is not null then
+    execute '
+      select count(*)
+      from public.investimentos i
+      where not exists (
+        select 1 from public.patrimonio_conjunto p
+        where p.origem_investimento_id = i.id
+      )' into faltantes;
+    raise notice 'Investimentos ainda não migrados: %', faltantes;
+  else
+    raise notice 'Tabela investimentos não existe; nenhuma validação legada necessária.';
+  end if;
+end;
+$$;

@@ -22,7 +22,7 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 // ────────────────────────────────────────────────────────────────
 const APP_CONFIG = {
   nomeApp: 'Casal no Controle',
-  versao: '1.0.0',
+  versao: '2.0.0',
 
   // Totais mensais consolidados de anos anteriores (de planilhas/CSVs
   // históricos). Usado pelas Crônicas para os gráficos de longo prazo.

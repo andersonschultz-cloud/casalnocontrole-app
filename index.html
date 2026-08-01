@@ -92,7 +92,7 @@ a{color:var(--green);text-decoration:none}
 .tbl th.r{text-align:right}
 .tbl td{padding:8px 0;border-bottom:1px solid var(--line);vertical-align:middle}
 .tbl tr:last-child td{border-bottom:none}
-.td-name{width:40%}.td-who{width:22%;padding-right:6px!important}.td-val{width:28%;text-align:right}.td-del{width:10%;text-align:right}
+.td-name{width:29%}.td-cat{width:19%;padding-right:6px!important}.td-who{width:20%;padding-right:6px!important}.td-val{width:24%;text-align:right}.td-del{width:8%;text-align:right}
 .td-sname{width:58%}.td-sval{width:32%;text-align:right}.td-sdel{width:10%;text-align:right}
 
 .inp{background:var(--bg);border:1px solid var(--line);border-radius:8px;color:var(--ink);font-family:'JetBrains Mono',monospace;font-size:13px;padding:6px 9px;width:100%;transition:border-color .15s}
@@ -487,6 +487,63 @@ body[data-theme="burn"] .theme-toggle{color:#FF7A18;border-color:rgba(255,122,24
 }
 
 
+
+/* ── ATALHOS DA TELA INICIAL ── */
+.quick-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.quick-card{min-width:0;display:flex;align-items:flex-start;gap:12px;text-align:left;background:linear-gradient(145deg,rgba(9,29,47,.92),rgba(5,18,31,.86));border:1px solid var(--line);border-radius:16px;padding:15px;color:var(--ink);transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+.quick-card:hover,.quick-card:focus-visible{transform:translateY(-2px);border-color:var(--green);box-shadow:0 14px 30px rgba(0,0,0,.22),0 0 20px var(--green-l);outline:none}
+.quick-icon{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;flex:0 0 auto;background:var(--green-l);color:var(--green)}
+.quick-icon svg{width:20px;height:20px}
+.quick-card>span:last-child{display:block;min-width:0}
+.quick-title{display:block;font-size:13px;font-weight:800;color:var(--ink);margin-bottom:3px}
+.quick-desc{display:block;font-size:11px;line-height:1.4;color:var(--ink-3)}
+body[data-theme="light"] .quick-card{background:linear-gradient(145deg,rgba(231,247,252,.94),rgba(213,239,247,.82));border-color:rgba(25,158,194,.22)}
+body[data-theme="burn"] .quick-card{background:linear-gradient(145deg,rgba(64,12,5,.94),rgba(31,4,1,.88));border-color:rgba(255,93,35,.30)}
+
+/* ── AÇÕES DE COMPETÊNCIA / CLONAGEM ── */
+.month-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;margin:-2px 0 14px;background:linear-gradient(145deg,rgba(9,29,47,.84),rgba(5,18,31,.78));border:1px solid var(--line);border-radius:14px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.month-actions-copy{min-width:0}
+.month-actions-title{font-size:12px;font-weight:800;color:var(--ink)}
+.month-actions-hint{font-size:10.5px;color:var(--ink-3);margin-top:2px}
+.month-actions-buttons{display:flex;gap:8px;flex:0 0 auto}
+.btn-compact{min-height:38px;border-radius:10px;padding:8px 11px;border:1px solid var(--line);font-size:11px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;background:var(--card);color:var(--ink-2)}
+.btn-compact.primary{background:var(--green-l);color:var(--green);border-color:rgba(0,191,234,.28)}
+.btn-compact:disabled{opacity:.45;cursor:not-allowed}
+body[data-theme="light"] .month-actions{background:linear-gradient(145deg,rgba(228,245,251,.92),rgba(208,237,247,.80))}
+body[data-theme="burn"] .month-actions{background:linear-gradient(145deg,rgba(65,12,5,.90),rgba(29,4,1,.84))}
+
+/* ── PATRIMÔNIO CONJUNTO ── */
+.pat-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:14px}
+.pat-form-actions{display:flex;gap:8px;margin-top:12px}
+.pat-form-actions .btn-primary{margin-top:0}
+.form-grid textarea{width:100%;min-height:88px;resize:vertical;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px;font:inherit;font-size:13px;color:var(--ink)}
+.form-grid textarea:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px var(--green-l)}
+.pat-percent-preview{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.pat-percent-box{border:1px solid var(--line);border-radius:12px;padding:10px;background:rgba(0,191,234,.04)}
+.pat-percent-label{font-size:10px;color:var(--ink-3);font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.pat-percent-value{font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:800;color:var(--green);margin-top:3px}
+.pat-card{border:1px solid var(--line);border-radius:15px;padding:14px;margin-bottom:10px;background:linear-gradient(145deg,rgba(9,29,47,.82),rgba(5,18,31,.76))}
+.pat-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.pat-card-title{font-size:14px;font-weight:800;color:var(--ink)}
+.pat-card-meta{font-size:11px;color:var(--ink-3);margin-top:2px}
+.pat-card-total{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:800;color:var(--green);white-space:nowrap}
+.pat-split{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.pat-split-item{padding:9px 10px;border-radius:10px;background:rgba(0,0,0,.10);border:1px solid var(--line)}
+.pat-split-name{font-size:10px;color:var(--ink-3)}
+.pat-split-value{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--ink);margin-top:2px}
+.pat-card-obs{font-size:11px;color:var(--ink-2);line-height:1.45;margin-top:10px;white-space:pre-wrap}
+.pat-card-actions{display:flex;justify-content:flex-end;gap:7px;margin-top:12px}
+.btn-mini{min-height:36px;border:1px solid var(--line);border-radius:9px;padding:7px 11px;font-size:11px;font-weight:800;background:var(--card);color:var(--ink-2)}
+.btn-mini.danger{color:var(--red);border-color:var(--red-l);background:var(--red-l)}
+body[data-theme="light"] .pat-card{background:linear-gradient(145deg,rgba(231,247,252,.92),rgba(213,239,247,.76))}
+body[data-theme="burn"] .pat-card{background:linear-gradient(145deg,rgba(65,12,5,.90),rgba(28,4,1,.84))}
+.migration-note{border:1px solid var(--gold);background:var(--gold-l);color:var(--gold);border-radius:12px;padding:12px;font-size:12px;line-height:1.5}
+
+/* Painéis de gráficos sem fundo branco chapado */
+.chart-wrap{border:1px solid rgba(0,191,234,.12);border-radius:16px;padding:8px;background:linear-gradient(180deg,rgba(5,24,40,.42),rgba(2,14,26,.28))}
+body[data-theme="light"] .chart-wrap{background:linear-gradient(180deg,rgba(207,239,248,.78),rgba(187,226,239,.62));border-color:rgba(25,158,194,.20)}
+body[data-theme="burn"] .chart-wrap{background:linear-gradient(180deg,rgba(69,13,5,.66),rgba(30,4,1,.46));border-color:rgba(255,93,35,.24)}
+
 /* ═══════════════════════════════════════════════════════════════════════
    REVISÃO RESPONSIVA — IPHONE, MOBILE, TABLET E DESKTOP
 ═══════════════════════════════════════════════════════════════════════ */
@@ -543,7 +600,7 @@ body:not(.is-authenticated) #app{display:none!important}
 #nav-cronicas{pointer-events:auto!important;z-index:2}
 
 @media(max-width:767px){
-  body{font-size:14px}
+  body{font-size:14px;background-attachment:scroll;scroll-padding-bottom:calc(110px + var(--safe-b))}
   .shell{padding-left:12px;padding-right:12px;padding-bottom:calc(78px + var(--safe-b))}
   .topbar{padding:12px 0 14px}
   .brand img{width:32px;height:32px}
@@ -565,14 +622,33 @@ body:not(.is-authenticated) #app{display:none!important}
   .month-label{font-size:14px;min-width:118px}
   .month-nav button{width:34px;height:34px}
 
-  .card:has(.tbl){overflow-x:auto;-webkit-overflow-scrolling:touch}
-  .tbl{min-width:620px}
-  .extras-grid .tbl{min-width:420px}
-  .inp,.sel,.pay-inp,.inp-name,.form-grid input,.form-grid select,.field input{font-size:16px}
-  .td-name{min-width:180px}
-  .td-who{min-width:135px}
-  .td-val{min-width:125px}
-  .td-del{min-width:42px}
+  .inp,.sel,.pay-inp,.inp-name,.form-grid input,.form-grid select,.form-grid textarea,.field input{font-size:16px}
+  button,.nav-btn,.btn-add,.btn-save,.btn-primary,.btn-secondary,.btn-danger{touch-action:manipulation}
+  .ledger-table,.ledger-table tbody,.ledger-table tr,.ledger-table td{display:block;width:100%;min-width:0}
+  .ledger-table thead{display:none}
+  .ledger-table tr{position:relative;border:1px solid var(--line);border-radius:13px;padding:11px;margin-bottom:9px;background:rgba(0,0,0,.08)}
+  .ledger-table td{padding:0!important;border:0!important;text-align:left!important}
+  .ledger-table td:not(.td-del):not(.td-sdel)::before{content:attr(data-label);display:block;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-3);margin-bottom:4px}
+  .expense-table tr{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 40px;gap:9px}
+  .expense-table .td-name{grid-column:1/3}
+  .expense-table .td-cat{grid-column:1}
+  .expense-table .td-who{grid-column:2}
+  .expense-table .td-val{grid-column:1/3}
+  .expense-table .td-del{grid-column:3;grid-row:1/4;display:flex;align-items:flex-start;justify-content:flex-end}
+  .simple-ledger tr{display:grid;grid-template-columns:minmax(0,1fr) 40px;gap:9px}
+  .simple-ledger .td-sname{grid-column:1}
+  .simple-ledger .td-sval{grid-column:1}
+  .simple-ledger .td-sdel{grid-column:2;grid-row:1/3;display:flex;justify-content:flex-end}
+  .ledger-table .btn-rm{width:36px;height:36px;border-radius:10px;background:var(--red-l);color:var(--red);font-size:22px}
+  .atbl-wrap{overflow:visible}
+  .atbl,.atbl tbody,.atbl tr,.atbl td{display:block;width:100%;min-width:0}
+  .atbl thead{display:none}
+  .atbl tr{display:grid;grid-template-columns:1fr 1fr;gap:7px 12px;border:1px solid var(--line);border-radius:13px;padding:11px;margin-bottom:9px;background:rgba(0,0,0,.06)}
+  .atbl td{border:0!important;padding:3px 0!important;text-align:right!important;font-size:11px}
+  .atbl td::before{content:attr(data-label);float:left;font-family:'Inter',sans-serif;font-size:9px;font-weight:800;color:var(--ink-3);text-transform:uppercase;letter-spacing:.03em;margin-right:8px}
+  .atbl .mobile-row-title{grid-column:1/-1;text-align:left!important;font-size:13px!important;font-weight:800!important;padding-bottom:7px!important;border-bottom:1px solid var(--line)!important}
+  .atbl .mobile-row-title::before{display:none}
+  .atbl .total-row{border-color:var(--green);background:var(--green-l)}
 
   .acerto-box{padding:20px 14px}
   .acerto-val{font-size:clamp(25px,9vw,34px)}
@@ -582,6 +658,14 @@ body:not(.is-authenticated) #app{display:none!important}
   .brow .bv,.btotal span:last-child{white-space:nowrap}
 
   .form-grid{grid-template-columns:1fr}
+  .quick-actions{grid-template-columns:1fr}
+  .month-actions{align-items:stretch;flex-direction:column}
+  .month-actions-buttons{display:grid;grid-template-columns:1fr 1fr}
+  .btn-compact{min-height:44px}
+  .pat-summary{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .pat-form-actions{flex-direction:column}
+  .pat-form-actions .btn-secondary{min-height:44px}
+  .pat-split{grid-template-columns:1fr}
   .year-cards{grid-template-columns:repeat(2,minmax(0,1fr))}
   .sub-tabs{gap:5px}
   .sub-tab{font-size:11.5px;padding:8px 5px}
@@ -614,6 +698,7 @@ body:not(.is-authenticated) #app{display:none!important}
   .year-cards{grid-template-columns:1fr 1fr}
   .auth-screen{padding:72px 16px 24px}
   .auth-card{padding:20px 16px}
+  .pat-percent-preview{grid-template-columns:1fr}
 }
 
 @media(min-width:768px){
@@ -747,11 +832,23 @@ body:not(.is-authenticated) #app{display:none!important}
 
     <div class="card">
       <div class="card-title">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
-        Metas em andamento
-        <span class="tag" style="cursor:pointer" onclick="navTo('metas')">ver todas</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h5"/></svg>
+        Acessos rápidos
       </div>
-      <div id="dash-metas"><div class="empty-state"><p>Nenhuma meta cadastrada ainda.</p></div></div>
+      <div class="quick-actions">
+        <button class="quick-card" type="button" onclick="navTo('cronicas')">
+          <span class="quick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-7h6v7"/></svg></span>
+          <span><span class="quick-title">Crônicas</span><span class="quick-desc">Compare gastos mensais e anuais.</span></span>
+        </button>
+        <button class="quick-card" type="button" onclick="navTo('lancamentos')">
+          <span class="quick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg></span>
+          <span><span class="quick-title">Lançamentos</span><span class="quick-desc">Organize despesas e o acerto do mês.</span></span>
+        </button>
+        <button class="quick-card" type="button" onclick="navTo('patrimonio')">
+          <span class="quick-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10l9-7 9 7"/><path d="M5 9v11h14V9"/><path d="M9 20v-6h6v6"/><path d="M8 10h8"/></svg></span>
+          <span><span class="quick-title">Patrimônio Conjunto</span><span class="quick-desc">Acompanhe bens e participação do casal.</span></span>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -769,6 +866,17 @@ body:not(.is-authenticated) #app{display:none!important}
       </button>
     </div>
 
+    <div class="month-actions" id="month-actions">
+      <div class="month-actions-copy">
+        <div class="month-actions-title">Como deseja iniciar esta competência?</div>
+        <div class="month-actions-hint" id="month-actions-hint">Verificando os lançamentos do mês…</div>
+      </div>
+      <div class="month-actions-buttons">
+        <button class="btn-compact" id="btn-empty-month" type="button" onclick="startEmptyMonth()">Mês vazio</button>
+        <button class="btn-compact primary" id="btn-clone-month" type="button" onclick="clonePreviousMonth()">Copiar anterior</button>
+      </div>
+    </div>
+
     <div class="stat-grid">
       <div class="stat"><div class="stat-lbl">Total AP</div><div class="stat-val" id="sc-tap">—</div></div>
       <div class="stat"><div class="stat-lbl">Cota / pessoa</div><div class="stat-val" id="sc-cota">—</div></div>
@@ -781,8 +889,8 @@ body:not(.is-authenticated) #app{display:none!important}
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         Despesas do apartamento
       </div>
-      <table class="tbl">
-        <thead><tr><th>Descrição</th><th>Quem pagou</th><th class="r">Valor (R$)</th><th></th></tr></thead>
+      <table class="tbl ledger-table expense-table">
+        <thead><tr><th>Descrição</th><th>Categoria</th><th>Quem pagou</th><th class="r">Valor (R$)</th><th></th></tr></thead>
         <tbody id="exp-body"></tbody>
       </table>
       <button class="btn-add" onclick="addExpRow()">+ Adicionar despesa</button>
@@ -800,7 +908,7 @@ body:not(.is-authenticated) #app{display:none!important}
           Schultz Bank
         </div>
         <div class="ebadge">Valor inteiro entra no acerto</div>
-        <table class="tbl"><tbody id="sch-body"></tbody></table>
+        <table class="tbl ledger-table simple-ledger"><tbody id="sch-body"></tbody></table>
         <button class="btn-add" onclick="addSchRow()">+ Adicionar</button>
         <div class="divider"></div>
         <div class="srow b"><span>Total</span><span class="v" id="d-sch">—</span></div>
@@ -811,7 +919,7 @@ body:not(.is-authenticated) #app{display:none!important}
           Sicredi Black
         </div>
         <div class="ebadge">÷ 2 entra no acerto</div>
-        <table class="tbl"><tbody id="sic-body"></tbody></table>
+        <table class="tbl ledger-table simple-ledger"><tbody id="sic-body"></tbody></table>
         <button class="btn-add" onclick="addSicRow()">+ Adicionar</button>
         <div class="divider"></div>
         <div class="srow"><span style="font-size:12px">Total bruto</span><span class="v" id="d-sic">—</span></div>
@@ -875,83 +983,74 @@ body:not(.is-authenticated) #app{display:none!important}
     </div>
   </div>
 
-  <!-- ── PAGE: INVESTIMENTOS ── -->
-  <div id="p-investimentos" class="page">
-    <div class="stat-grid">
-      <div class="stat green"><div class="stat-lbl">Patrimônio total</div><div class="stat-val" id="inv-total">—</div></div>
-      <div class="stat"><div class="stat-lbl">Nº de ativos</div><div class="stat-val" id="inv-count">—</div></div>
+  <!-- ── PAGE: PATRIMÔNIO CONJUNTO ── -->
+  <div id="p-patrimonio" class="page">
+    <div class="pat-summary">
+      <div class="stat green"><div class="stat-lbl">Patrimônio do casal</div><div class="stat-val" id="pat-total-geral">—</div></div>
+      <div class="stat"><div class="stat-lbl" id="pat-user-label">Titular</div><div class="stat-val" id="pat-total-user">—</div></div>
+      <div class="stat gold"><div class="stat-lbl" id="pat-partner-label">Parceiro(a)</div><div class="stat-val" id="pat-total-partner">—</div></div>
+      <div class="stat blue"><div class="stat-lbl">Participação</div><div class="stat-val" id="pat-share">—</div></div>
     </div>
 
-    <div class="card">
-      <div class="card-title">Novo aporte / ativo</div>
+    <div class="card" id="pat-form-card">
+      <div class="card-title">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10l9-7 9 7"/><path d="M5 9v11h14V9"/><path d="M9 20v-6h6v6"/></svg>
+        <span id="pat-form-title">Novo item patrimonial</span>
+      </div>
+      <input type="hidden" id="pat-id">
       <div class="form-grid">
-        <div><label>Instituição</label><input type="text" id="inv-instituicao" placeholder="Ex: XP, Sicredi..."></div>
-        <div><label>Ativo</label><input type="text" id="inv-ativo" placeholder="Ex: Tesouro Selic"></div>
-        <div><label>Categoria</label><input type="text" id="inv-categoria" placeholder="Ex: Renda Fixa"></div>
-        <div><label>Valor (R$)</label><input type="text" id="inv-valor" placeholder="0,00"></div>
+        <div><label>Nome ou descrição</label><input type="text" id="pat-nome" placeholder="Ex: Apartamento, veículo, reserva"></div>
+        <div><label>Categoria</label><select id="pat-categoria"><option>Imóvel</option><option>Veículo</option><option>Investimentos</option><option>Reserva financeira</option><option>Patrimônio pessoal</option><option>Outros</option></select></div>
+        <div><label>Valor total estimado (R$)</label><input type="text" inputmode="decimal" id="pat-total" placeholder="0,00" oninput="updatePatPreview()"></div>
+        <div><label id="pat-user-input-label">Valor do titular (R$)</label><input type="text" inputmode="decimal" id="pat-user" placeholder="0,00" oninput="updatePatPreview()"></div>
+        <div><label id="pat-partner-input-label">Valor do parceiro(a) (R$)</label><input type="text" inputmode="decimal" id="pat-partner" placeholder="0,00" oninput="updatePatPreview()"></div>
+        <div><label>Data de aquisição/referência</label><input type="date" id="pat-data"></div>
       </div>
       <div class="form-grid full">
-        <div><label>Data de referência</label><input type="date" id="inv-data"></div>
+        <div><label>Observações</label><textarea id="pat-obs" placeholder="Detalhes sobre o bem, financiamento, titularidade ou referência de valor"></textarea></div>
       </div>
-      <button class="btn-primary" onclick="addInvestimento()">+ Adicionar</button>
+      <div class="pat-percent-preview">
+        <div class="pat-percent-box"><div class="pat-percent-label" id="pat-pct-user-label">Participação do titular</div><div class="pat-percent-value" id="pat-pct-user">0,0%</div></div>
+        <div class="pat-percent-box"><div class="pat-percent-label" id="pat-pct-partner-label">Participação do parceiro(a)</div><div class="pat-percent-value" id="pat-pct-partner">0,0%</div></div>
+      </div>
+      <div class="pat-form-actions">
+        <button class="btn-secondary" id="btn-pat-cancel" type="button" onclick="cancelPatEdit()" style="display:none">Cancelar edição</button>
+        <button class="btn-primary" id="btn-pat-save" type="button" onclick="savePatrimonio()">Adicionar patrimônio</button>
+      </div>
     </div>
 
     <div class="card">
       <div class="card-title">Distribuição por categoria</div>
-      <div id="inv-dist"><div class="empty-state"><p>Nenhum investimento cadastrado.</p></div></div>
+      <div id="pat-dist"><div class="empty-state"><p>Nenhum patrimônio cadastrado.</p></div></div>
     </div>
 
     <div class="card">
-      <div class="card-title">Todos os ativos</div>
-      <div id="inv-list"><div class="empty-state"><p>Nenhum investimento cadastrado ainda.</p></div></div>
-    </div>
-  </div>
-
-  <!-- ── PAGE: METAS ── -->
-  <div id="p-metas" class="page">
-    <div class="card">
-      <div class="card-title">Nova meta</div>
-      <div class="form-grid">
-        <div><label>Descrição</label><input type="text" id="meta-desc" placeholder="Ex: Reserva de emergência"></div>
-        <div><label>Prazo</label><input type="date" id="meta-prazo"></div>
-        <div><label>Valor da meta (R$)</label><input type="text" id="meta-valor" placeholder="0,00"></div>
-        <div><label>Valor atual (R$)</label><input type="text" id="meta-atual" placeholder="0,00"></div>
-      </div>
-      <button class="btn-primary" onclick="addMeta()">+ Adicionar meta</button>
-    </div>
-
-    <div class="card">
-      <div class="card-title">Suas metas</div>
-      <div id="metas-list"><div class="empty-state"><p>Nenhuma meta cadastrada ainda.</p></div></div>
+      <div class="card-title">Bens e valores do casal</div>
+      <div id="pat-list"><div class="empty-state"><p>Nenhum item patrimonial cadastrado ainda.</p></div></div>
     </div>
   </div>
 
 </div><!-- /shell -->
 
 <!-- BOTTOM NAV -->
-<nav class="bottom-nav">
+<nav class="bottom-nav" aria-label="Navegação principal">
   <button class="nav-btn active" id="nav-dashboard" onclick="navTo('dashboard')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
     <span>Início</span>
   </button>
   <button class="nav-btn" id="nav-lancamentos" onclick="navTo('lancamentos')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>
     <span>Lançamentos</span>
   </button>
   <button class="nav-btn" id="nav-cronicas" onclick="navTo('cronicas')" aria-label="Crônicas">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-7h6v7"/><path d="M9 10h6"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-7h6v7"/></svg>
     <span>Crônicas</span>
   </button>
-  <button class="nav-btn" id="nav-investimentos" onclick="navTo('investimentos')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg>
-    <span>Investir</span>
-  </button>
-  <button class="nav-btn" id="nav-metas" onclick="navTo('metas')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>
-    <span>Metas</span>
+  <button class="nav-btn" id="nav-patrimonio" onclick="navTo('patrimonio')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10l9-7 9 7"/><path d="M5 9v11h14V9"/><path d="M9 20v-6h6v6"/><path d="M8 10h8"/></svg>
+    <span>Patrimônio</span>
   </button>
 </nav>
-
 </div><!-- /app -->
 
 <!-- SETTINGS MODAL -->
@@ -1004,8 +1103,15 @@ function applyTheme(theme){
   }
 }
 
+function safeStorageGet(key) {
+  try { return window.localStorage.getItem(key); } catch (_) { return null; }
+}
+function safeStorageSet(key, value) {
+  try { window.localStorage.setItem(key, value); } catch (_) {}
+}
+
 (function initTheme(){
-  const saved = localStorage.getItem('casal-theme');
+  const saved = safeStorageGet('casal-theme');
   const preferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
   applyTheme(saved || preferred);
 })();
@@ -1015,7 +1121,7 @@ function toggleTheme(){
   const current = document.body.dataset.theme || 'dark';
   const next = order[(order.indexOf(current) + 1) % order.length] || 'dark';
   applyTheme(next);
-  localStorage.setItem('casal-theme', next);
+  safeStorageSet('casal-theme', next);
   try {
     buildDashboard();
     if (document.getElementById('p-cronicas')?.classList.contains('active')) buildCronicas();
@@ -1173,8 +1279,8 @@ let expRows = [];     // {id?, descricao, categoria, valor, responsavel_pagament
 let schRows = [];     // {id?, descricao, valor}
 let sicRows = [];     // {id?, descricao, valor}
 
-let invList = [];
-let metasList = [];
+let patrimonioList = [];
+let monthOperationBusy = false;
 let historyCache = null;
 
 let curPage = 'dashboard';
@@ -1357,22 +1463,28 @@ async function saveSettings() {
     $('d-deve-lbl').textContent = `${parceiro.nome} deve das despesas`;
     $('a-sub').textContent = `${parceiro.nome} transfere para ${titular ? titular.nome : 'o(a) titular'}`;
   }
+  updatePatLabels();
   closeSettings();
   toast('Configurações salvas');
   recalcMonth();
+  if (curPage === 'patrimonio') renderPatrimonio();
 }
 
 // ── NAVIGATION ────────────────────────────────────────────────────────
 function navTo(page) {
+  const allowed = ['dashboard','lancamentos','cronicas','patrimonio'];
+  if (!allowed.includes(page)) page = 'dashboard';
   curPage = page;
-  ['dashboard','lancamentos','cronicas','investimentos','metas'].forEach(p => {
-    $('p-'+p).classList.toggle('active', p===page);
-    $('nav-'+p).classList.toggle('active', p===page);
+  allowed.forEach(p => {
+    const pageEl = $('p-'+p); const navEl = $('nav-'+p);
+    if (pageEl) pageEl.classList.toggle('active', p===page);
+    if (navEl) navEl.classList.toggle('active', p===page);
   });
   if (page === 'dashboard') buildDashboard();
+  if (page === 'lancamentos') loadMonth();
   if (page === 'cronicas') buildCronicas();
-  if (page === 'investimentos') buildInvestimentos();
-  if (page === 'metas') buildMetas();
+  if (page === 'patrimonio') buildPatrimonio();
+  window.scrollTo({ top:0, behavior:'smooth' });
 }
 
 // ════════════════════════════════════════════════════════════════════════
@@ -1399,12 +1511,13 @@ async function loadMonth() {
     supa.from('sicredi_black').select('*').eq('household_id', household.id).gte('data', start).lt('data', end).order('created_at')
   ]);
 
-  expRows = (expRes.data || []).map(r => ({ id:r.id, descricao:r.descricao||'', valor:Number(r.valor), responsavel_pagamento:r.responsavel_pagamento }));
+  expRows = (expRes.data || []).map(r => ({ id:r.id, descricao:r.descricao||'', categoria:r.categoria||'Apartamento', valor:Number(r.valor), responsavel_pagamento:r.responsavel_pagamento }));
   schRows = (schRes.data || []).map(r => ({ id:r.id, descricao:r.descricao||'', valor:Number(r.valor) }));
   sicRows = (sicRes.data || []).map(r => ({ id:r.id, descricao:r.descricao||'', valor:Number(r.valor) }));
 
   renderMonthTables();
   recalcMonth();
+  updateMonthActions();
   checkImportBanner();
 }
 
@@ -1412,21 +1525,22 @@ function expRowHtml(item) {
   const tr = document.createElement('tr');
   const titularSel = item.responsavel_pagamento === (titular && titular.id);
   tr.innerHTML = `
-    <td class="td-name"><input class="inp inp-name in" value="${esc(item.descricao)}" oninput="recalcMonth()"></td>
-    <td class="td-who"><select class="sel iw" onchange="recalcMonth()">
+    <td class="td-name" data-label="Descrição"><input class="inp inp-name in" value="${esc(item.descricao)}" aria-label="Descrição da despesa" oninput="recalcMonth()"></td>
+    <td class="td-cat" data-label="Categoria"><input class="inp inp-name ic" value="${esc(item.categoria || 'Apartamento')}" aria-label="Categoria da despesa"></td>
+    <td class="td-who" data-label="Quem pagou"><select class="sel iw" aria-label="Quem pagou" onchange="recalcMonth()">
       <option value="${titular?titular.id:''}"${titularSel?' selected':''}>${titular?esc(titular.nome):'Titular'}</option>
       <option value="${parceiro?parceiro.id:''}"${!titularSel?' selected':''}>${parceiro?esc(parceiro.nome):'Parceiro'}</option>
     </select></td>
-    <td class="td-val"><input class="inp inp-val iv" value="${fmtN(item.valor)}" oninput="recalcMonth()"></td>
-    <td class="td-del"><button class="btn-rm" onclick="this.closest('tr').remove();recalcMonth()">×</button></td>`;
+    <td class="td-val" data-label="Valor (R$)"><input class="inp inp-val iv" inputmode="decimal" value="${fmtN(item.valor)}" aria-label="Valor da despesa" oninput="recalcMonth()"></td>
+    <td class="td-del"><button class="btn-rm" type="button" aria-label="Excluir despesa" onclick="this.closest('tr').remove();recalcMonth();updateMonthActions()">×</button></td>`;
   return tr;
 }
 function simRowHtml(item) {
   const tr = document.createElement('tr');
   tr.innerHTML = `
-    <td class="td-sname"><input class="inp inp-name in" value="${esc(item.descricao)}" oninput="recalcMonth()"></td>
-    <td class="td-sval"><input class="inp inp-val iv" value="${fmtN(item.valor)}" oninput="recalcMonth()"></td>
-    <td class="td-sdel"><button class="btn-rm" onclick="this.closest('tr').remove();recalcMonth()">×</button></td>`;
+    <td class="td-sname" data-label="Descrição"><input class="inp inp-name in" value="${esc(item.descricao)}" aria-label="Descrição do lançamento" oninput="recalcMonth()"></td>
+    <td class="td-sval" data-label="Valor (R$)"><input class="inp inp-val iv" inputmode="decimal" value="${fmtN(item.valor)}" aria-label="Valor do lançamento" oninput="recalcMonth()"></td>
+    <td class="td-sdel"><button class="btn-rm" type="button" aria-label="Excluir lançamento" onclick="this.closest('tr').remove();recalcMonth();updateMonthActions()">×</button></td>`;
   return tr;
 }
 
@@ -1436,15 +1550,17 @@ function renderMonthTables() {
   expRows.forEach(r => eb.appendChild(expRowHtml(r)));
   schRows.forEach(r => sb.appendChild(simRowHtml(r)));
   sicRows.forEach(r => scb.appendChild(simRowHtml(r)));
+  updateMonthActions();
 }
 
-function addExpRow() { $('exp-body').appendChild(expRowHtml({descricao:'Nova despesa', valor:0, responsavel_pagamento: titular?titular.id:null})); recalcMonth(); }
-function addSchRow() { $('sch-body').appendChild(simRowHtml({descricao:'Novo item', valor:0})); recalcMonth(); }
-function addSicRow() { $('sic-body').appendChild(simRowHtml({descricao:'Novo item', valor:0})); recalcMonth(); }
+function addExpRow() { $('exp-body').appendChild(expRowHtml({descricao:'', categoria:'Apartamento', valor:0, responsavel_pagamento: titular?titular.id:null})); recalcMonth(); updateMonthActions(); }
+function addSchRow() { $('sch-body').appendChild(simRowHtml({descricao:'', valor:0})); recalcMonth(); updateMonthActions(); }
+function addSicRow() { $('sic-body').appendChild(simRowHtml({descricao:'', valor:0})); recalcMonth(); updateMonthActions(); }
 
 function readDOMRows() {
   const exp = [...document.querySelectorAll('#exp-body tr')].map(tr => ({
-    descricao: tr.querySelector('.in').value,
+    descricao: tr.querySelector('.in').value.trim(),
+    categoria: tr.querySelector('.ic')?.value.trim() || 'Apartamento',
     valor: parseV(tr.querySelector('.iv').value),
     responsavel_pagamento: tr.querySelector('.iw').value || null
   }));
@@ -1494,28 +1610,105 @@ function recalcMonth() {
   return r;
 }
 
+
+function monthDisplay(y,m) {
+  return `${MONTHS_FULL[m-1]} de ${y}`;
+}
+
+function previousMonthOf(y,m) {
+  return m === 1 ? { year:y-1, month:12 } : { year:y, month:m-1 };
+}
+
+function updateMonthActions() {
+  const hint = $('month-actions-hint');
+  const emptyBtn = $('btn-empty-month');
+  const cloneBtn = $('btn-clone-month');
+  if (!hint || !emptyBtn || !cloneBtn) return;
+  const rows = readDOMRows();
+  const count = rows.exp.length + rows.sch.length + rows.sic.length;
+  const prev = previousMonthOf(curYear, curMonthNum);
+  if (count > 0) {
+    hint.textContent = `${count} lançamento(s) carregado(s). Para evitar duplicidade, a cópia só é liberada quando o mês está vazio.`;
+  } else {
+    hint.textContent = `Mês vazio. Você pode iniciar do zero ou copiar ${monthDisplay(prev.year, prev.month)}.`;
+  }
+  emptyBtn.disabled = monthOperationBusy || count > 0;
+  cloneBtn.disabled = monthOperationBusy || count > 0;
+}
+
+async function startEmptyMonth() {
+  if (!household || monthOperationBusy) return;
+  const rows = readDOMRows();
+  if (rows.exp.length || rows.sch.length || rows.sic.length) { toast('Este mês já possui lançamentos.', true); return; }
+  if (!confirm(`Criar ${monthDisplay(curYear,curMonthNum)} vazio?\n\nNenhum dado do mês anterior será copiado.`)) return;
+  monthOperationBusy = true; updateMonthActions();
+  try {
+    const { error } = await supa.rpc('iniciar_mes_vazio', { p_ano:curYear, p_mes:curMonthNum });
+    if (error) {
+      if (/function|schema cache|PGRST202/i.test(error.message || '')) throw new Error('Execute primeiro a migração SQL de patrimônio e clonagem.');
+      throw error;
+    }
+    expRows=[]; schRows=[]; sicRows=[];
+    renderMonthTables(); recalcMonth();
+    toast('Mês vazio iniciado ✓');
+  } catch (e) { toast(e.message || 'Não foi possível iniciar o mês', true); }
+  monthOperationBusy = false; updateMonthActions();
+}
+
+async function clonePreviousMonth() {
+  if (!household || monthOperationBusy) return;
+  const rows = readDOMRows();
+  if (rows.exp.length || rows.sch.length || rows.sic.length) { toast('O mês de destino precisa estar vazio.', true); return; }
+  const prev = previousMonthOf(curYear, curMonthNum);
+  const ok = confirm(`Copiar os lançamentos de ${monthDisplay(prev.year,prev.month)} para ${monthDisplay(curYear,curMonthNum)}?\n\nOs registros serão independentes. Alterações no novo mês não afetarão o anterior.`);
+  if (!ok) return;
+  monthOperationBusy = true; updateMonthActions();
+  try {
+    const { data, error } = await supa.rpc('clonar_mes_anterior', { p_ano:curYear, p_mes:curMonthNum });
+    if (error) {
+      const msg = error.message || '';
+      if (/DESTINO_COM_DADOS|já possui/i.test(msg)) throw new Error('O mês de destino já possui dados. A clonagem foi cancelada para evitar duplicidade.');
+      if (/ORIGEM_SEM_DADOS|origem/i.test(msg)) throw new Error('O mês anterior não possui lançamentos para copiar.');
+      if (/function|schema cache|PGRST202/i.test(msg)) throw new Error('Execute primeiro a migração SQL de patrimônio e clonagem.');
+      throw error;
+    }
+    await loadMonth();
+    historyCache = null;
+    const total = data && typeof data === 'object' ? Number(data.total || 0) : 0;
+    toast(total ? `${total} lançamento(s) copiado(s) ✓` : 'Mês anterior copiado ✓');
+  } catch (e) { toast(e.message || 'Não foi possível copiar o mês anterior', true); }
+  monthOperationBusy = false; updateMonthActions();
+}
+
 async function saveMonth() {
   if (!household) { toast('Conecte o Supabase primeiro', true); return; }
   const btn = $('btn-save-month');
   btn.disabled = true;
-  const { exp, sch, sic } = readDOMRows();
+  const raw = readDOMRows();
+  const exp = raw.exp.filter(e => e.descricao || e.valor);
+  const sch = raw.sch.filter(e => e.descricao || e.valor);
+  const sic = raw.sic.filter(e => e.descricao || e.valor);
   const start = monthStart(curYear, curMonthNum);
 
   try {
-    await supa.from('despesas').delete().eq('household_id', household.id).gte('data', start).lt('data', monthEnd(curYear, curMonthNum));
-    await supa.from('schultz_bank').delete().eq('household_id', household.id).gte('data', start).lt('data', monthEnd(curYear, curMonthNum));
-    await supa.from('sicredi_black').delete().eq('household_id', household.id).gte('data', start).lt('data', monthEnd(curYear, curMonthNum));
+    const delResults = await Promise.all([
+      supa.from('despesas').delete().eq('household_id', household.id).gte('data', start).lt('data', monthEnd(curYear, curMonthNum)),
+      supa.from('schultz_bank').delete().eq('household_id', household.id).gte('data', start).lt('data', monthEnd(curYear, curMonthNum)),
+      supa.from('sicredi_black').delete().eq('household_id', household.id).gte('data', start).lt('data', monthEnd(curYear, curMonthNum))
+    ]);
+    const deleteError = delResults.find(r => r.error)?.error;
+    if (deleteError) throw deleteError;
 
-    if (exp.length) await supa.from('despesas').insert(exp.map(e => ({
-      household_id: household.id, data: start, categoria: 'Apartamento',
+    if (exp.length) { const { error } = await supa.from('despesas').insert(exp.map(e => ({
+      household_id: household.id, data: start, categoria: e.categoria || 'Apartamento',
       descricao: e.descricao, valor: e.valor, responsavel_pagamento: e.responsavel_pagamento
-    })));
-    if (sch.length) await supa.from('schultz_bank').insert(sch.map(e => ({
+    }))); if (error) throw error; }
+    if (sch.length) { const { error } = await supa.from('schultz_bank').insert(sch.map(e => ({
       household_id: household.id, data: start, descricao: e.descricao, valor: e.valor
-    })));
-    if (sic.length) await supa.from('sicredi_black').insert(sic.map(e => ({
+    }))); if (error) throw error; }
+    if (sic.length) { const { error } = await supa.from('sicredi_black').insert(sic.map(e => ({
       household_id: household.id, data: start, descricao: e.descricao, valor: e.valor
-    })));
+    }))); if (error) throw error; }
 
     toast('Lançamentos do mês salvos ✓');
     await loadMonth();
@@ -1665,9 +1858,9 @@ function buildMonthlyView(hist) {
 
 function chartPanelFill(){
   const theme = document.body.dataset.theme || 'dark';
-  if (theme === 'light') return '#DFF3FA';
-  if (theme === 'burn') return '#260803';
-  return '#071C2E';
+  if (theme === 'light') return '#CFEAF3';
+  if (theme === 'burn') return '#351008';
+  return '#08243A';
 }
 function chartGridColor(){
   const theme = document.body.dataset.theme || 'dark';
@@ -1757,7 +1950,7 @@ function buildMonthlyTable(hist) {
   html += `<th>Var. MoM</th></tr></thead><tbody>`;
   const lastYr = years[years.length-1];
   MONTHS_LBL.forEach((lbl,mi) => {
-    html += `<tr><td>${lbl}</td>`;
+    html += `<tr><td class="mobile-row-title" data-label="Mês">${lbl}</td>`;
     const monthValues = years.map(yr => ({ yr, value: (hist[yr]||[])[mi] })).filter(item => typeof item.value === 'number' && isFinite(item.value));
     const maxMonthValue = monthValues.length ? Math.max(...monthValues.map(item => item.value)) : null;
     years.forEach(yr => {
@@ -1766,14 +1959,14 @@ function buildMonthlyTable(hist) {
       if (Number(yr)===today.getFullYear()) classes.push('cur-yr');
       if (maxMonthValue !== null && typeof v === 'number' && isFinite(v) && v === maxMonthValue) classes.push('max-month-cost');
       const cls = classes.length ? ` class="${classes.join(' ')}"` : '';
-      html += `<td${cls}>${v!==null&&v!==undefined?fmtR(v):'<span class="var-na">—</span>'}</td>`;
+      html += `<td${cls} data-label="${yr}">${v!==null&&v!==undefined?fmtR(v):'<span class="var-na">—</span>'}</td>`;
     });
     const curV = (hist[lastYr]||[])[mi], prevV = mi>0 ? (hist[lastYr]||[])[mi-1] : null;
-    html += `<td>${fmtVarCell(varPct(curV, prevV))}</td></tr>`;
+    html += `<td data-label="Variação">${fmtVarCell(varPct(curV, prevV))}</td></tr>`;
   });
-  html += `<tr style="border-top:2px solid var(--line)"><td style="color:var(--green);font-weight:700">Total</td>`;
-  years.forEach(yr => html += `<td style="color:var(--green);font-weight:700">${fmtR(annualTotal(yr,hist))}</td>`);
-  html += `<td></td></tr></tbody>`;
+  html += `<tr class="total-row"><td class="mobile-row-title" data-label="Resumo" style="color:var(--green);font-weight:700">Total</td>`;
+  years.forEach(yr => html += `<td data-label="${yr}" style="color:var(--green);font-weight:700">${fmtR(annualTotal(yr,hist))}</td>`);
+  html += `<td data-label="Variação"></td></tr></tbody>`;
   tbl.innerHTML = html;
 }
 
@@ -1840,147 +2033,176 @@ function buildAnnualTable(hist) {
     const prevTot = i>0 ? annualTotal(years[i-1], hist) : null;
     const pct = varPct(tot, prevTot);
     const isCur = Number(yr) === today.getFullYear();
-    html += `<tr><td style="${isCur?'color:var(--green)':''}">${yr}</td><td class="${isCur?'cur-yr':''}">${fmtR(tot)}</td><td>${fmtR(avg)}</td><td>${fmtVarCell(pct)}</td><td style="color:var(--red)">${MONTHS_LBL[maxI]} ${fmtR(maxV)}</td><td style="color:var(--green)">${MONTHS_LBL[minI]} ${fmtR(minV)}</td></tr>`;
+    html += `<tr><td class="mobile-row-title" data-label="Ano" style="${isCur?'color:var(--green)':''}">${yr}</td><td data-label="Total" class="${isCur?'cur-yr':''}">${fmtR(tot)}</td><td data-label="Média/mês">${fmtR(avg)}</td><td data-label="Variação anual">${fmtVarCell(pct)}</td><td data-label="Maior mês" style="color:var(--red)">${MONTHS_LBL[maxI]} ${fmtR(maxV)}</td><td data-label="Menor mês" style="color:var(--green)">${MONTHS_LBL[minI]} ${fmtR(minV)}</td></tr>`;
   });
   html += `</tbody>`;
   tbl.innerHTML = html;
 }
 
 // ════════════════════════════════════════════════════════════════════════
-// INVESTIMENTOS
+// PATRIMÔNIO CONJUNTO
 // ════════════════════════════════════════════════════════════════════════
 
-async function buildInvestimentos() {
-  if (!household) return;
-  const { data } = await supa.from('investimentos').select('*').eq('household_id', household.id).order('data_referencia', { ascending: false });
-  invList = data || [];
-  renderInvestimentos();
+function isMissingMigrationError(error) {
+  const msg = String(error?.message || error || '');
+  return error?.code === '42P01' || error?.code === 'PGRST205' || /patrimonio_conjunto|schema cache|does not exist/i.test(msg);
 }
 
-function renderInvestimentos() {
-  const total = rnd(invList.reduce((s,i)=>s+Number(i.valor),0));
-  $('inv-total').textContent = fmtR(total);
-  $('inv-count').textContent = invList.length;
+function participation(userValue, partnerValue) {
+  const sum = Number(userValue||0) + Number(partnerValue||0);
+  if (!sum) return { user:0, partner:0 };
+  return { user:rnd(Number(userValue||0)/sum*100), partner:rnd(Number(partnerValue||0)/sum*100) };
+}
 
-  const distWrap = $('inv-dist');
-  if (!invList.length) { distWrap.innerHTML = '<div class="empty-state"><p>Nenhum investimento cadastrado.</p></div>'; }
+function updatePatLabels() {
+  const userName = titular?.nome || 'Titular';
+  const partnerName = parceiro?.nome || 'Parceiro(a)';
+  const pairs = [
+    ['pat-user-label', userName], ['pat-partner-label', partnerName],
+    ['pat-user-input-label', `Valor de ${userName} (R$)`], ['pat-partner-input-label', `Valor de ${partnerName} (R$)`],
+    ['pat-pct-user-label', `Participação de ${userName}`], ['pat-pct-partner-label', `Participação de ${partnerName}`]
+  ];
+  pairs.forEach(([id,text]) => { const el=$(id); if(el) el.textContent=text; });
+}
+
+function updatePatPreview() {
+  const userValue = parseV($('pat-user')?.value || '0');
+  const partnerValue = parseV($('pat-partner')?.value || '0');
+  const pct = participation(userValue, partnerValue);
+  if ($('pat-pct-user')) $('pat-pct-user').textContent = `${pct.user.toFixed(1)}%`;
+  if ($('pat-pct-partner')) $('pat-pct-partner').textContent = `${pct.partner.toFixed(1)}%`;
+}
+
+async function buildPatrimonio() {
+  if (!household) return;
+  updatePatLabels();
+  const { data, error } = await supa.from('patrimonio_conjunto').select('*').eq('household_id', household.id).order('data_referencia', { ascending:false, nullsFirst:false }).order('created_at', { ascending:false });
+  if (error) {
+    patrimonioList = [];
+    renderPatrimonio();
+    const wrap = $('pat-list');
+    if (isMissingMigrationError(error)) wrap.innerHTML = '<div class="migration-note"><strong>Migração pendente.</strong><br>Execute o arquivo <code>supabase/migration-v2-patrimonio-clonagem.sql</code> no SQL Editor do Supabase e recarregue a página.</div>';
+    else wrap.innerHTML = `<div class="empty-state"><p>Erro ao carregar o patrimônio: ${esc(error.message)}</p></div>`;
+    return;
+  }
+  patrimonioList = data || [];
+  renderPatrimonio();
+}
+
+function renderPatrimonio() {
+  updatePatLabels();
+  const total = rnd(patrimonioList.reduce((s,i)=>s+Number(i.valor_total_estimado||0),0));
+  const userTotal = rnd(patrimonioList.reduce((s,i)=>s+Number(i.valor_usuario||0),0));
+  const partnerTotal = rnd(patrimonioList.reduce((s,i)=>s+Number(i.valor_parceira||0),0));
+  const pct = participation(userTotal, partnerTotal);
+  $('pat-total-geral').textContent = fmtR(total);
+  $('pat-total-user').textContent = fmtR(userTotal);
+  $('pat-total-partner').textContent = fmtR(partnerTotal);
+  $('pat-share').textContent = `${pct.user.toFixed(0)}% / ${pct.partner.toFixed(0)}%`;
+
+  const distWrap = $('pat-dist');
+  if (!patrimonioList.length) distWrap.innerHTML = '<div class="empty-state"><p>Nenhum patrimônio cadastrado.</p></div>';
   else {
     const byCat = {};
-    invList.forEach(i => { const c = i.categoria || 'Outros'; byCat[c] = (byCat[c]||0) + Number(i.valor); });
-    const cats = Object.entries(byCat).sort((a,b)=>b[1]-a[1]);
-    distWrap.innerHTML = cats.map(([cat,val]) => {
-      const pct = total ? (val/total*100) : 0;
-      return `<div style="margin-bottom:12px">
-        <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px">
-          <span style="font-weight:600">${esc(cat)}</span>
-          <span class="li-pct">${pct.toFixed(1)}% · ${fmtR(val)}</span>
-        </div>
-        <div class="dist-bar"><div class="dist-fill" style="width:${pct}%"></div></div>
-      </div>`;
+    patrimonioList.forEach(i => { const c=i.categoria||'Outros'; byCat[c]=(byCat[c]||0)+Number(i.valor_total_estimado||0); });
+    distWrap.innerHTML = Object.entries(byCat).sort((a,b)=>b[1]-a[1]).map(([cat,val]) => {
+      const share = total ? val/total*100 : 0;
+      return `<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;gap:10px;font-size:12px;margin-bottom:5px"><strong>${esc(cat)}</strong><span class="li-pct">${share.toFixed(1)}% · ${fmtR(val)}</span></div><div class="dist-bar"><div class="dist-fill" style="width:${Math.min(100,share)}%"></div></div></div>`;
     }).join('');
   }
 
-  const listWrap = $('inv-list');
-  if (!invList.length) { listWrap.innerHTML = '<div class="empty-state"><p>Nenhum investimento cadastrado ainda.</p></div>'; }
-  else {
-    listWrap.innerHTML = invList.map(i => `
-      <div class="list-item">
-        <div class="li-main">
-          <div class="li-title">${esc(i.ativo)}</div>
-          <div class="li-sub">${esc(i.instituicao)} ${i.categoria?'· '+esc(i.categoria):''} · ${new Date(i.data_referencia).toLocaleDateString('pt-BR')}</div>
-        </div>
-        <div class="li-val">${fmtR(i.valor)}</div>
-        <button class="btn-rm" onclick="deleteInvestimento('${i.id}')">×</button>
-      </div>`).join('');
-  }
+  const listWrap = $('pat-list');
+  if (!patrimonioList.length) { listWrap.innerHTML = '<div class="empty-state"><p>Nenhum item patrimonial cadastrado ainda.</p></div>'; return; }
+  const userName = titular?.nome || 'Titular';
+  const partnerName = parceiro?.nome || 'Parceiro(a)';
+  listWrap.innerHTML = patrimonioList.map(i => {
+    const itemPct = participation(i.valor_usuario, i.valor_parceira);
+    const dateLabel = i.data_referencia ? new Date(`${i.data_referencia}T12:00:00`).toLocaleDateString('pt-BR') : 'Sem data';
+    return `<article class="pat-card">
+      <div class="pat-card-head"><div><div class="pat-card-title">${esc(i.nome)}</div><div class="pat-card-meta">${esc(i.categoria||'Outros')} · ${dateLabel}</div></div><div class="pat-card-total">${fmtR(i.valor_total_estimado)}</div></div>
+      <div class="pat-split">
+        <div class="pat-split-item"><div class="pat-split-name">${esc(userName)} · ${itemPct.user.toFixed(1)}%</div><div class="pat-split-value">${fmtR(i.valor_usuario)}</div></div>
+        <div class="pat-split-item"><div class="pat-split-name">${esc(partnerName)} · ${itemPct.partner.toFixed(1)}%</div><div class="pat-split-value">${fmtR(i.valor_parceira)}</div></div>
+      </div>
+      ${i.observacoes ? `<div class="pat-card-obs">${esc(i.observacoes)}</div>` : ''}
+      <div class="pat-card-actions"><button class="btn-mini" type="button" onclick="editPatrimonio('${i.id}')">Editar</button><button class="btn-mini danger" type="button" onclick="deletePatrimonio('${i.id}')">Excluir</button></div>
+    </article>`;
+  }).join('');
 }
 
-async function addInvestimento() {
-  if (!household) { toast('Faça login primeiro', true); return; }
-  const instituicao = $('inv-instituicao').value.trim();
-  const ativo = $('inv-ativo').value.trim();
-  const categoria = $('inv-categoria').value.trim();
-  const valor = parseV($('inv-valor').value);
-  const data_referencia = $('inv-data').value || new Date().toISOString().slice(0,10);
-  if (!instituicao || !ativo || !valor) { toast('Preencha instituição, ativo e valor', true); return; }
-
-  const { error } = await supa.from('investimentos').insert({ household_id: household.id, instituicao, ativo, categoria, valor, data_referencia });
-  if (error) { toast('Erro: '+error.message, true); return; }
-  $('inv-instituicao').value=''; $('inv-ativo').value=''; $('inv-categoria').value=''; $('inv-valor').value=''; $('inv-data').value='';
-  toast('Investimento adicionado ✓');
-  buildInvestimentos();
+function clearPatForm() {
+  ['pat-id','pat-nome','pat-total','pat-user','pat-partner','pat-data','pat-obs'].forEach(id => { if($(id)) $(id).value=''; });
+  if ($('pat-categoria')) $('pat-categoria').value='Imóvel';
+  $('pat-form-title').textContent='Novo item patrimonial';
+  $('btn-pat-save').textContent='Adicionar patrimônio';
+  $('btn-pat-cancel').style.display='none';
+  updatePatPreview();
 }
 
-async function deleteInvestimento(id) {
-  await supa.from('investimentos').delete().eq('id', id);
-  toast('Removido');
-  buildInvestimentos();
+function editPatrimonio(id) {
+  const item = patrimonioList.find(i=>i.id===id); if(!item) return;
+  $('pat-id').value=item.id;
+  $('pat-nome').value=item.nome||'';
+  const category = item.categoria||'Outros';
+  if (![...$('pat-categoria').options].some(o=>o.value===category)) $('pat-categoria').add(new Option(category,category));
+  $('pat-categoria').value=category;
+  $('pat-total').value=fmtN(item.valor_total_estimado);
+  $('pat-user').value=fmtN(item.valor_usuario);
+  $('pat-partner').value=fmtN(item.valor_parceira);
+  $('pat-data').value=item.data_referencia||'';
+  $('pat-obs').value=item.observacoes||'';
+  $('pat-form-title').textContent='Editar item patrimonial';
+  $('btn-pat-save').textContent='Salvar alterações';
+  $('btn-pat-cancel').style.display='block';
+  updatePatPreview();
+  $('pat-form-card').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-// ════════════════════════════════════════════════════════════════════════
-// METAS FINANCEIRAS
-// ════════════════════════════════════════════════════════════════════════
+function cancelPatEdit() { clearPatForm(); }
 
-async function buildMetas() {
+async function savePatrimonio() {
   if (!household) return;
-  const { data } = await supa.from('metas_financeiras').select('*').eq('household_id', household.id).order('created_at', { ascending: false });
-  metasList = data || [];
-  renderMetas();
-  renderDashMetas();
+  const id=$('pat-id').value;
+  const nome=$('pat-nome').value.trim();
+  const categoria=$('pat-categoria').value || 'Outros';
+  const userValue=parseV($('pat-user').value);
+  const partnerValue=parseV($('pat-partner').value);
+  const informedTotal=parseV($('pat-total').value);
+  const total=informedTotal || rnd(userValue+partnerValue);
+  const data_referencia=$('pat-data').value || null;
+  const observacoes=$('pat-obs').value.trim() || null;
+  if (!nome) { toast('Informe o nome do patrimônio.', true); $('pat-nome').focus(); return; }
+  if (total < 0 || userValue < 0 || partnerValue < 0) { toast('Os valores não podem ser negativos.', true); return; }
+  if (!total && !userValue && !partnerValue) { toast('Informe ao menos um valor.', true); return; }
+  const payload={household_id:household.id,nome,categoria,valor_total_estimado:total,valor_usuario:userValue,valor_parceira:partnerValue,data_referencia,observacoes};
+  const btn=$('btn-pat-save'); btn.disabled=true;
+  const result = id ? await supa.from('patrimonio_conjunto').update(payload).eq('id',id).eq('household_id',household.id) : await supa.from('patrimonio_conjunto').insert(payload);
+  btn.disabled=false;
+  if (result.error) {
+    const msg=isMissingMigrationError(result.error)?'Execute a migração SQL antes de cadastrar o patrimônio.':result.error.message;
+    toast(msg,true); return;
+  }
+  toast(id?'Patrimônio atualizado ✓':'Patrimônio adicionado ✓');
+  clearPatForm();
+  await buildPatrimonio();
+  await updateDashboardPatrimonio();
 }
 
-function renderMetas() {
-  const wrap = $('metas-list');
-  if (!metasList.length) { wrap.innerHTML = '<div class="empty-state"><p>Nenhuma meta cadastrada ainda.</p></div>'; return; }
-  wrap.innerHTML = metasList.map(m => {
-    const pct = m.valor_meta ? Math.min(100, (Number(m.valor_atual)/Number(m.valor_meta))*100) : 0;
-    return `<div style="margin-bottom:16px">
-      <div class="list-item" style="border-bottom:none;padding-bottom:0">
-        <div class="li-main">
-          <div class="li-title">${esc(m.descricao)}</div>
-          <div class="li-sub">${fmtR(m.valor_atual)} de ${fmtR(m.valor_meta)} ${m.prazo?'· até '+new Date(m.prazo).toLocaleDateString('pt-BR'):''}</div>
-        </div>
-        <div class="li-pct">${pct.toFixed(0)}%</div>
-        <button class="btn-rm" onclick="deleteMeta('${m.id}')">×</button>
-      </div>
-      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
-    </div>`;
-  }).join('');
+async function deletePatrimonio(id) {
+  const item=patrimonioList.find(i=>i.id===id);
+  if (!confirm(`Excluir "${item?.nome || 'este patrimônio'}"?\n\nEsta ação não pode ser desfeita.`)) return;
+  const { error } = await supa.from('patrimonio_conjunto').delete().eq('id',id).eq('household_id',household.id);
+  if (error) { toast(error.message,true); return; }
+  toast('Patrimônio excluído');
+  await buildPatrimonio();
+  await updateDashboardPatrimonio();
 }
 
-function renderDashMetas() {
-  const wrap = $('dash-metas');
-  if (!metasList.length) { wrap.innerHTML = '<div class="empty-state"><p>Nenhuma meta cadastrada ainda.</p></div>'; return; }
-  wrap.innerHTML = metasList.slice(0,3).map(m => {
-    const pct = m.valor_meta ? Math.min(100, (Number(m.valor_atual)/Number(m.valor_meta))*100) : 0;
-    return `<div style="margin-bottom:14px">
-      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px">
-        <span style="font-weight:600">${esc(m.descricao)}</span><span class="li-pct">${pct.toFixed(0)}%</span>
-      </div>
-      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
-    </div>`;
-  }).join('');
-}
-
-async function addMeta() {
-  if (!household) { toast('Faça login primeiro', true); return; }
-  const descricao = $('meta-desc').value.trim();
-  const valor_meta = parseV($('meta-valor').value);
-  const valor_atual = parseV($('meta-atual').value);
-  const prazo = $('meta-prazo').value || null;
-  if (!descricao || !valor_meta) { toast('Preencha a descrição e o valor da meta', true); return; }
-
-  const { error } = await supa.from('metas_financeiras').insert({ household_id: household.id, descricao, valor_meta, valor_atual, prazo });
-  if (error) { toast('Erro: '+error.message, true); return; }
-  $('meta-desc').value=''; $('meta-valor').value=''; $('meta-atual').value=''; $('meta-prazo').value='';
-  toast('Meta adicionada ✓');
-  buildMetas();
-}
-
-async function deleteMeta(id) {
-  await supa.from('metas_financeiras').delete().eq('id', id);
-  toast('Removida');
-  buildMetas();
+async function updateDashboardPatrimonio() {
+  if (!household) return;
+  const { data, error } = await supa.from('patrimonio_conjunto').select('valor_total_estimado').eq('household_id',household.id);
+  if (error) { $('dash-patrimonio').textContent='—'; return; }
+  $('dash-patrimonio').textContent=fmtR((data||[]).reduce((s,i)=>s+Number(i.valor_total_estimado||0),0));
 }
 
 // ════════════════════════════════════════════════════════════════════════
@@ -1989,9 +2211,7 @@ async function deleteMeta(id) {
 
 async function buildDashboard() {
   if (!household) return;
-  const { data: invData } = await supa.from('investimentos').select('valor');
-  const patrimonio = rnd((invData||[]).reduce((s,i)=>s+Number(i.valor),0));
-  $('dash-patrimonio').textContent = fmtR(patrimonio);
+  await updateDashboardPatrimonio();
 
   const r = calcAcerto(...Object.values(readDOMRows()));
   $('dash-gasto-mes').textContent = fmtR(rnd(r.totalAP + r.schT + r.sicT));
@@ -2006,7 +2226,6 @@ async function buildDashboard() {
   $('dash-media').textContent = fmtR(media);
 
   drawDashChart(hist);
-  await buildMetas();
 }
 
 function drawDashChart(hist) {
@@ -2031,10 +2250,21 @@ function drawDashChart(hist) {
 
   let path = '';
   last6.forEach((d,i) => { const x=xOf(i), y=yOf(d.v); path += (i===0?'M':'L') + x + ',' + y + ' '; });
-  html += `<path d="${path}" fill="none" stroke="#0E8F6E" stroke-width="2.4" stroke-linecap="round"/>`;
-  last6.forEach((d,i) => { const x=xOf(i), y=yOf(d.v); html += `<circle cx="${x}" cy="${y}" r="3.5" fill="#0E8F6E"/>`; });
+  html += `<path d="${path}" fill="none" stroke="var(--green)" stroke-width="2.4" stroke-linecap="round"/>`;
+  last6.forEach((d,i) => { const x=xOf(i), y=yOf(d.v); html += `<circle cx="${x}" cy="${y}" r="3.5" fill="var(--green)"/>`; });
 
   svg.innerHTML = html;
+}
+
+// ── iPhone / teclado virtual: mantém o campo focado visível ───────────
+document.addEventListener('focusin', event => {
+  if (!window.visualViewport || !/^(INPUT|SELECT|TEXTAREA)$/.test(event.target.tagName)) return;
+  setTimeout(() => event.target.scrollIntoView({ block:'center', behavior:'smooth' }), 180);
+});
+if (window.visualViewport) {
+  window.visualViewport.addEventListener('resize', () => {
+    document.documentElement.style.setProperty('--keyboard-h', `${Math.max(0, window.innerHeight - window.visualViewport.height)}px`);
+  }, {passive:true});
 }
 
 // ════════════════════════════════════════════════════════════════════════
